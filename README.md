@@ -9,7 +9,7 @@ In the project directory, you can make santas elves run:
 ### `yarn dev`
 
 Forces the elves to start the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
 
 The elves reload the page if you make edits.\
 You will also see any lint errors in the console, feel free to ignore any crys for help the elves send here.
