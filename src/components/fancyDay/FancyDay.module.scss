@@ -1,0 +1,36 @@
+.fancyDay {
+  margin: 0 auto;
+  background-color: white;
+  max-width: 16rem;
+  color: var(--color-dark);
+  display: flex;
+  flex-direction: column;
+  .topBar {
+    background-color: var(--color-red);
+    .day {
+      font-size: 2rem;
+      color: white;
+      font-weight: 500;
+    }
+  }
+  .mainContent {
+    padding: 0.5rem;
+    .date {
+      font-size: 4rem;
+      line-height: 4rem;
+      margin: 1rem;
+      font-weight: 500;
+    }
+    .month {
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+    }
+  }
+  .bottomBar {
+    .year {
+      font-size: 1.5rem;
+      line-height: 1rem;
+      font-weight: 500;
+    }
+  }
+}
