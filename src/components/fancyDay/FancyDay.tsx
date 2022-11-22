@@ -22,7 +22,7 @@ const FancyDay = ({ date, showYear }: FancyDayProps) => {
         <p className={styles.day}>{dayString}</p>
       </div>
       <div className={styles.mainContent}>
-        <div className={styles.date}>{dateString}</div>
+        <div className={styles.date}>{dateString}.</div>
         <div className={styles.month}>{monthString}</div>
       </div>
       {showYear && (
