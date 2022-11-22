@@ -1,3 +1,14 @@
+:root {
+  --color-purple-dark: #61266A;
+  --color-purple: #90409D;
+  --color-green-dark: #165B33;
+  --color-green: #146B3A;
+  --color-yellow-dark: #C89127;
+  --color-yellow: #F8B229;
+  --color-red-dark: #BB2528;
+  --color-red: #EA4630;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -17,24 +28,4 @@
 
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
 }

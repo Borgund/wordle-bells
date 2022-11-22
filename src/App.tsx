@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import dnbLogo from "./assets/dnb-logo.png";
 import "./App.css";
+import Snowfall from "react-snowfall";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -22,6 +23,7 @@ function App() {
           Edit <code>src/App.tsx</code> to get christmas cracking! 🎅🏻
         </p>
       </div>
+      <Snowfall style={{ zIndex: "-100" }} snowflakeCount={40} />
     </div>
   );
 }
