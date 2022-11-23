@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import reactLogo from './assets/react.svg';
-import dnbLogo from './assets/dnb-logo.png';
-import './App.css';
-import Snowfall from 'react-snowfall';
-import Countdown from 'react-countdown';
-import CustomCountdown from './components/countdown';
-import FancyDay from './components/fancyDay';
+import React, { useEffect, useState } from "react";
+import reactLogo from "./assets/react.svg";
+import dnbLogo from "./assets/dnb-logo.png";
+import "./App.css";
+import Snowfall from "react-snowfall";
+import Countdown from "react-countdown";
+import CustomCountdown from "./components/countdown";
+import FancyDay from "./components/fancyDay";
 
 function App() {
-  const [attempts, setAttempts] = useState(['', '', '', '', '', '']);
-  const [activeGuess, setActiveGuess] = useState('');
+  const [attempts, setAttempts] = useState(["", "", "", "", "", ""]);
+  const [activeGuess, setActiveGuess] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const today = new Date();
-  const christmas = new Date('2022-12-24');
+  const christmas = new Date("2022-12-24");
   const isBeforeChristmas = +today < +christmas;
 
   const saveAttempt = () => {
@@ -22,10 +22,10 @@ function App() {
         newAttempts[activeIndex] = activeGuess;
         return newAttempts;
       });
-    if (activeIndex < 6) {
+    if (activeIndex < 5) {
       setActiveIndex((prevIndex) => prevIndex + 1);
     }
-    setActiveGuess('');
+    setActiveGuess("");
   };
 
   const handleKeyDown = ({ key }: KeyboardEvent) => {
@@ -35,17 +35,17 @@ function App() {
         setActiveGuess((prevGuess) => prevGuess + key.toUpperCase());
       }
     }
-    if (key === 'Enter') {
+    if (key === "Enter") {
       saveAttempt();
     }
-    if (key === 'Backspace') {
+    if (key === "Backspace") {
       setActiveGuess((prevGuess) => prevGuess.slice(0, -1));
     }
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
   });
 
   return (
@@ -75,7 +75,7 @@ function App() {
       {attempts.map((attempt) => (
         <div key="attempt">{attempt}</div>
       ))}
-      <Snowfall style={{ zIndex: '-100' }} snowflakeCount={40} />
+      <Snowfall style={{ zIndex: "-100" }} snowflakeCount={40} />
     </div>
   );
 }
