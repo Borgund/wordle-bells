@@ -1,4 +1,4 @@
-# HO HO HO! Getting Festive with Create React App 🎅🏻
+# HO HO HO! Merry Getting Festive with Create React App 🎅🏻
 
 This project is meant to bootstrap your holiday spirits! 🎄
 
