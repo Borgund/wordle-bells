@@ -1,0 +1,146 @@
+h1 {
+  margin-top: 0;
+}
+
+.doorContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 16rem;
+
+  .backDoor {
+    background-color: #F2F4EC;
+    position: relative;
+    width: 8rem;
+    height: 8rem;
+    box-shadow: 0 0 1.5rem .25rem transparent;
+    transition: all 0.5s ease-in-out;
+    border: 1px solid #FFF;
+    border-radius: 0 0.5rem 0.5rem 0;
+    cursor: pointer;
+
+    &:nth-child(2n) .door::after {
+      transform: rotate(0deg);
+    }
+
+    &:nth-child(3n) .door::after {
+      transform: rotate(30deg);
+    }
+
+    &:nth-child(5n) .door::after {
+      transform: rotate(60deg);
+    }
+
+    &:nth-child(11n) .door::after {
+      transform: rotate(90deg);
+    }
+
+    &:nth-child(13n) .door::after {
+      transform: rotate(120deg);
+    }
+
+    &:nth-child(17n) .door::after {
+      transform: rotate(150deg);
+    }
+
+    &:nth-child(2n+1) .door::after {
+      transform: rotate(180deg);
+    }
+
+    &:nth-child(3n+2) .door::after {
+      transform: rotate(210deg);
+    }
+
+    &:nth-child(5n+3) .door::after {
+      transform: rotate(240deg);
+    }
+
+    &:nth-child(11n+5) .door::after {
+      transform: rotate(270deg);
+    }
+
+    &:nth-child(13n+11) .door::after {
+      transform: rotate(300deg);
+    }
+
+    &:nth-child(17n+13) .door::after {
+      transform: rotate(330deg);
+    }
+
+    .door {
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 8rem;
+      height: 8rem;
+      background-color: #14555A;
+      transform-origin: left;
+      border: 1px dashed #FFF;
+      transition: all 0.5s ease-in-out;
+      border-radius: 0 0.5rem 0.5rem 0;
+      overflow: hidden;
+
+      &:after {
+        content: '';
+        display: inline-block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+
+        background-image: url("/src/assets/stars.svg");
+        background-repeat: repeat;
+      }
+
+      .number {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 8rem;
+        width: 8rem;
+        font-size: 4rem;
+        font-weight: 500;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+
+        -webkit-text-fill-color: white;
+        -webkit-text-stroke: 1px #14555a;
+
+        z-index: 1;
+      }
+    }
+
+    &.open {
+      box-shadow: 0 0 1.5rem .25rem #F2F4EC;
+
+      .door {
+        /* Perspective creates the door open effect */
+        transform: perspective(1200px) translateZ(0px) translateX(0px) translateY(0px) rotateY(-105deg);
+      }
+    }
+  }
+}
+
+.shake {
+  /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: shake 0.5s;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}

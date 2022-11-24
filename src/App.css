@@ -30,3 +30,9 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+body {
+  background-image: url("/src/assets/landscape.svg");
+  background-position: left -20rem bottom -10rem;
+  background-repeat: no-repeat;
+}
