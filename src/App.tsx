@@ -9,6 +9,16 @@ import FancyDay from "./components/fancyDay";
 import { Door, DoorContainer } from "./components/doors/doors";
 import LetterCard from "./components/letterCard";
 import Word from "./components/word";
+import Keyboard from "react-simple-keyboard";
+import "react-simple-keyboard/build/css/index.css";
+
+const layout = {
+  default: [
+    "Q W E R T Y U I O P",
+    "A S D F G H J K L {enter}",
+    "Z X C V B N M {bksp}",
+  ],
+};
 
 function App() {
   const [attempts, setAttempts] = useState(["", "", "", "", "", ""]);
@@ -37,18 +47,36 @@ function App() {
     setActiveGuess("");
   };
 
+  const addLetterToAttempt = (letter: string) => {
+    if (activeGuess.length < 5) {
+      setActiveGuess((prevGuess) => prevGuess + letter.toUpperCase());
+    }
+  };
+
+  const removeLetterFromAttempt = () => {
+    setActiveGuess((prevGuess) => prevGuess.slice(0, -1));
+  };
+
   const handleKeyDown = ({ key }: KeyboardEvent) => {
     const letterRegex = /[a-zA-Z]/;
     if (key.length === 1 && letterRegex.test(key)) {
-      if (activeGuess.length < 5) {
-        setActiveGuess((prevGuess) => prevGuess + key.toUpperCase());
-      }
+      addLetterToAttempt(key);
     }
     if (key === "Enter") {
       saveAttempt();
     }
     if (key === "Backspace") {
-      setActiveGuess((prevGuess) => prevGuess.slice(0, -1));
+      removeLetterFromAttempt();
+    }
+  };
+
+  const onKeyPress = (button: string) => {
+    if (button === "{bksp}") {
+      removeLetterFromAttempt();
+    } else if (button === "{enter}") {
+      saveAttempt();
+    } else {
+      addLetterToAttempt(button);
     }
   };
 
@@ -72,19 +100,24 @@ function App() {
         <>
           <p>Today is:</p>
           <FancyDay date={today} />
-          <p>So it's chrismas in just:</p>
+          <p>So it"s chrismas in just:</p>
         </>
       )}
       <p>
         <CustomCountdown date={christmas}>
-          <p>It's Christmas baby! Go do something else! 🎅🏻</p>
+          <p>It"s Christmas baby! Go do something else! 🎅🏻</p>
         </CustomCountdown>
       </p>
       <p>{<Word word={activeGuess} />}</p>
       {attempts.map((attempt) => (
         <Word word={attempt} correctWord={todaysWord} />
       ))}
-
+      <Keyboard
+        theme={"hg-theme-default dark"}
+        layout={layout}
+        layoutName="default"
+        onKeyPress={onKeyPress}
+      />
       <DoorContainer>
         {calendarDays.map((day) => {
           return <Door key={`door_${day}`} number={day} />;

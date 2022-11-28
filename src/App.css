@@ -1,12 +1,12 @@
 :root {
-  --color-purple-dark: #61266A;
-  --color-purple: #90409D;
-  --color-green-dark: #165B33;
-  --color-green: #146B3A;
-  --color-yellow-dark: #C89127;
-  --color-yellow: #F8B229;
-  --color-red-dark: #BB2528;
-  --color-red: #EA4630;
+  --color-purple-dark: #61266a;
+  --color-purple: #90409d;
+  --color-green-dark: #165b33;
+  --color-green: #146b3a;
+  --color-yellow-dark: #c89127;
+  --color-yellow: #f8b229;
+  --color-red-dark: #bb2528;
+  --color-red: #ea4630;
   --color-dark: #333333;
 }
 
@@ -32,7 +32,31 @@
 }
 
 body {
-  background-image: url("/src/assets/landscape.svg");
+  background-image: url('/src/assets/landscape.svg');
   background-position: left -20rem bottom -10rem;
   background-repeat: no-repeat;
+}
+
+/*
+  Theme: myTheme1
+*/
+.simple-keyboard.dark {
+  background: var(--color-dark);
+  border-radius: 0;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+}
+
+.simple-keyboard.dark .hg-button {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.simple-keyboard.dark .hg-button:active {
+  background: black;
+  color: white;
 }
