@@ -32,7 +32,7 @@
 }
 
 body {
-  background-image: url('/src/assets/landscape.svg');
+  background-image: url("/src/assets/landscape.svg");
   background-position: left -20rem bottom -10rem;
   background-repeat: no-repeat;
 }
