@@ -15,6 +15,8 @@ export const Wordle = () => {
   const [attempts, setAttempts] = useState(["", "", "", "", "", ""]);
   const [activeGuess, setActiveGuess] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isDone, setIsDone] = useState(false);
+
   const maxAttempts = 6;
 
   const { day } = useParams();
@@ -26,11 +28,14 @@ export const Wordle = () => {
   const validateAttempt = () => {
     return activeGuess.length === 5;
   };
+  const isCorrect = () => {
+    return activeGuess === todaysWord;
+  };
 
   const saveAttempt = () => {
     const valid = validateAttempt();
 
-    if (activeIndex === maxAttempts) {
+    if (activeIndex === maxAttempts || isDone) {
       return;
     }
     if (valid)
@@ -39,7 +44,10 @@ export const Wordle = () => {
         newAttempts[activeIndex] = activeGuess;
         return newAttempts;
       });
-    if (activeIndex < maxAttempts && valid) {
+    if (isCorrect()) {
+      setIsDone(true);
+    }
+    if (activeIndex < maxAttempts && valid && !isCorrect()) {
       setActiveIndex((prevIndex) => prevIndex + 1);
     }
     setActiveGuess("");
@@ -85,7 +93,9 @@ export const Wordle = () => {
 
   return (
     <div>
-      <p>{activeIndex < maxAttempts && <Word word={activeGuess} />}</p>
+      <p>
+        {activeIndex < maxAttempts && !isDone && <Word word={activeGuess} />}
+      </p>
       {attempts
         .map((attempt) => <Word word={attempt} correctWord={todaysWord} />)
         .reverse()}
