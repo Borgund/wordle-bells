@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import { Word } from "../components";
 
@@ -16,6 +17,8 @@ export const Wordle = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const todaysWord = "JOLLY";
   const maxAttempts = 6;
+
+  const { day } = useParams();
 
   const validateAttempt = () => {
     return activeGuess.length === 5;
@@ -79,6 +82,7 @@ export const Wordle = () => {
 
   return (
     <div>
+      {day}
       <p>{activeIndex < maxAttempts && <Word word={activeGuess} />}</p>
       {attempts
         .map((attempt) => <Word word={attempt} correctWord={todaysWord} />)
