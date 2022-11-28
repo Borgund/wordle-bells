@@ -117,10 +117,10 @@ function App() {
           <p>It"s Christmas baby! Go do something else! 🎅🏻</p>
         </CustomCountdown>
       </p>
-      <p>{ activeIndex < maxAttempts && <Word word={activeGuess} />}</p>
-      {attempts.map((attempt) => (
-        <Word word={attempt} correctWord={todaysWord} />
-      ).reverse())}
+      <p>{activeIndex < maxAttempts && <Word word={activeGuess} />}</p>
+      {attempts
+        .map((attempt) => <Word word={attempt} correctWord={todaysWord} />)
+        .reverse()}
       <Keyboard
         theme={"hg-theme-default dark"}
         layout={layout}
