@@ -1,3 +1,3 @@
-import { DoorContainer, Door } from "./Doors";
+import { DoorContainer, Door } from "./doors";
 
 export { DoorContainer, Door };
