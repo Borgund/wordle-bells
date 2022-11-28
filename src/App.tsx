@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     path: "/wordle/:day",
     loader: ({ params: { day } }) => {
       const parsedNumber = Number.parseInt(day || "");
-      if (!parsedNumber || !canOpen(parsedNumber)) {
+      if (!parsedNumber || !canOpen(parsedNumber) || parsedNumber > 24) {
         return redirect("/");
       }
     },
