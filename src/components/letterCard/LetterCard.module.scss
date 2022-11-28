@@ -1,0 +1,23 @@
+.cardWrapper {
+  border: 0.25rem solid var(--color-purple-dark);
+  background-color: var(--color-purple);
+  color: white;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+  font-size: 2rem;
+  line-height: 2rem;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.correctPosition {
+    border: 0.25rem solid var(--color-green-dark);
+    background-color: var(--color-green);
+  }
+  &.correctLetter {
+    border: 0.25rem solid var(--color-yellow-dark);
+    background-color: var(--color-yellow);
+  }
+}

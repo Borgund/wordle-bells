@@ -6,7 +6,9 @@ import Snowfall from "react-snowfall";
 import Countdown from "react-countdown";
 import CustomCountdown from "./components/countdown";
 import FancyDay from "./components/fancyDay";
-import {Door, DoorContainer} from "./components/doors/doors";
+import { Door, DoorContainer } from "./components/doors/doors";
+import LetterCard from "./components/letterCard";
+import Word from "./components/word";
 
 function App() {
   const [attempts, setAttempts] = useState(["", "", "", "", "", ""]);
@@ -15,8 +17,12 @@ function App() {
   const today = new Date();
   const christmas = new Date("2022-12-24");
   const isBeforeChristmas = +today < +christmas;
+  const todaysWord = "JOLLY";
 
-  const calendarDays = [6, 19, 4, 11, 13, 18, 7, 1, 21, 17, 14, 5, 10, 15, 2, 9, 22, 24, 20, 23, 8, 16, 3, 12];
+  const calendarDays = [
+    6, 19, 4, 11, 13, 18, 7, 1, 21, 17, 14, 5, 10, 15, 2, 9, 22, 24, 20, 23, 8,
+    16, 3, 12,
+  ];
 
   const saveAttempt = () => {
     if (activeGuess.length === 5)
@@ -74,20 +80,14 @@ function App() {
           <p>It's Christmas baby! Go do something else! 🎅🏻</p>
         </CustomCountdown>
       </p>
-      <p>{activeGuess}</p>
+      <p>{<Word word={activeGuess} />}</p>
       {attempts.map((attempt) => (
-        <div key="attempt">{attempt}</div>
+        <Word word={attempt} correctWord={todaysWord} />
       ))}
-
 
       <DoorContainer>
         {calendarDays.map((day) => {
-          return (
-              <Door
-                  key={`door_${day}`}
-                  number={day}
-              />
-          )
+          return <Door key={`door_${day}`} number={day} />;
         })}
       </DoorContainer>
 
