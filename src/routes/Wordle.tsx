@@ -18,8 +18,10 @@ export const Wordle = () => {
   const maxAttempts = 6;
 
   const { day } = useParams();
-  const WORDLIST = JSON.parse(import.meta.env.VITE_WORDLIST);
-  const todaysWord = WORDLIST[Number.parseInt(day || "") - 1 || 0];
+  const WORDLIST = import.meta.env.VITE_WORDLIST || "";
+  const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
+  const todaysWord =
+    WORDLIST_PARSED[Number.parseInt(day || "") - 1 || 0] || "WORDS";
 
   const validateAttempt = () => {
     return activeGuess.length === 5;
