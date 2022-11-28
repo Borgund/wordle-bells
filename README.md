@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7950823a-a160-4d18-aaff-6df108936fd7/deploy-status)](https://app.netlify.com/sites/wordle-bells/deploys)
+
 # HO HO HO! Getting Festive with Create React App 🎅🏻
 
 This project is meant to bootstrap your holiday spirits! 🎄
