@@ -12,17 +12,14 @@ const keyboardLayout = {
 };
 
 export const Wordle = () => {
-  const WORDLIST = import.meta.env.VITE_WORDLIST;
-  const WORDLIST_PARSED = JSON.parse(WORDLIST);
-  console.log(WORDLIST, WORDLIST_PARSED);
   const [attempts, setAttempts] = useState(["", "", "", "", "", ""]);
   const [activeGuess, setActiveGuess] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const maxAttempts = 6;
 
   const { day } = useParams();
-
-  const todaysWord = WORDLIST_PARSED[Number.parseInt(day || "") - 1 || 0];
+  const WORDLIST = JSON.parse(import.meta.env.VITE_WORDLIST);
+  const todaysWord = WORDLIST[Number.parseInt(day || "") - 1 || 0];
 
   const validateAttempt = () => {
     return activeGuess.length === 5;
@@ -86,7 +83,6 @@ export const Wordle = () => {
 
   return (
     <div>
-      {day} {todaysWord}
       <p>{activeIndex < maxAttempts && <Word word={activeGuess} />}</p>
       {attempts
         .map((attempt) => <Word word={attempt} correctWord={todaysWord} />)
