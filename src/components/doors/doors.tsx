@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { canOpen } from "../../utils";
 
 import styles from "./doors.module.scss";
 
 let dateNow = new Date();
-
-// TODO: Don't pretend it's the 4th of Dec by removing these 2 lines ...
-dateNow.setMonth(11);
-dateNow.setDate(4);
 
 const nth = (d: number) => {
   if (d > 3 && d < 21) return "th";
@@ -42,14 +39,6 @@ export const Door = (props: { number: number }) => {
   const [open, setOpen] = useState(false);
   const [shake, setShake] = useState(false);
 
-  const canOpen = () => {
-    let doorDate = new Date(dateNow);
-    doorDate.setMonth(11);
-    doorDate.setDate(number);
-
-    return dateNow >= doorDate;
-  };
-
   const stopShake = () => {
     setTimeout(function () {
       setShake(false);
@@ -69,7 +58,7 @@ export const Door = (props: { number: number }) => {
       }`}
       tabIndex={0}
       onClick={() => {
-        if (canOpen()) {
+        if (canOpen(number)) {
           setOpen(!open);
           navigateToWordle();
         } else {

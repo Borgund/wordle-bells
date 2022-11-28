@@ -8,14 +8,8 @@ import {
 } from "react-router-dom";
 import { Home } from "./routes/Home";
 import { Wordle } from "./routes/Wordle";
+import { canOpen } from "./utils";
 
-const canOpen = (number: number) => {
-  const dateNow = new Date();
-  const doorDate = new Date(dateNow);
-  doorDate.setMonth(11);
-  doorDate.setDate(number);
-  return dateNow >= doorDate;
-};
 const router = createBrowserRouter([
   {
     path: "/",
