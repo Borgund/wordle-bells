@@ -18,20 +18,29 @@ function App() {
   const christmas = new Date("2022-12-24");
   const isBeforeChristmas = +today < +christmas;
   const todaysWord = "JOLLY";
+  const maxAttempts = 6;
 
   const calendarDays = [
     6, 19, 4, 11, 13, 18, 7, 1, 21, 17, 14, 5, 10, 15, 2, 9, 22, 24, 20, 23, 8,
     16, 3, 12,
   ];
+  const validateAttempt = () => {
+    return activeGuess.length === 5;
+  };
 
   const saveAttempt = () => {
-    if (activeGuess.length === 5)
+    const valid = validateAttempt();
+
+    if (activeIndex === maxAttempts) {
+      return;
+    }
+    if (valid)
       setAttempts((prevAttempts) => {
         const newAttempts = [...prevAttempts];
         newAttempts[activeIndex] = activeGuess;
         return newAttempts;
       });
-    if (activeIndex < 5) {
+    if (activeIndex < maxAttempts && valid) {
       setActiveIndex((prevIndex) => prevIndex + 1);
     }
     setActiveGuess("");
@@ -80,10 +89,10 @@ function App() {
           <p>It's Christmas baby! Go do something else! 🎅🏻</p>
         </CustomCountdown>
       </p>
-      <p>{<Word word={activeGuess} />}</p>
-      {attempts.map((attempt) => (
-        <Word word={attempt} correctWord={todaysWord} />
-      ))}
+      <p>{activeIndex < maxAttempts && <Word word={activeGuess} />}</p>
+      {attempts
+        .map((attempt) => <Word word={attempt} correctWord={todaysWord} />)
+        .reverse()}
 
       <DoorContainer>
         {calendarDays.map((day) => {

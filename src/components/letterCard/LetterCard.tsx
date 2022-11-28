@@ -25,7 +25,7 @@ const LetterCard = ({
           : ""
       )}
     >
-      {letter}
+      {charAtZero}
     </div>
   );
 };
