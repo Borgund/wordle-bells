@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import { Word } from "../components";
+import useSound from "use-sound";
+import achievementbell from "../assets/sounds/achievementbell.wav";
 
 const keyboardLayout = {
   default: [
@@ -24,6 +26,7 @@ export const Wordle = () => {
   const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
   const todaysWord =
     WORDLIST_PARSED[Number.parseInt(day || "") - 1 || 0] || "WORDS";
+  const [play] = useSound(achievementbell);
 
   const validateAttempt = () => {
     return activeGuess.length === 5;
@@ -46,6 +49,7 @@ export const Wordle = () => {
       });
     if (isCorrect()) {
       setIsDone(true);
+      play();
     }
     if (activeIndex < maxAttempts && valid && !isCorrect()) {
       setActiveIndex((prevIndex) => prevIndex + 1);

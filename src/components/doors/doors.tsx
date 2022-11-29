@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { canOpen } from "../../utils";
+import useSound from "use-sound";
+import storebell from "../..//assets/sounds/storebell.wav";
 
 import styles from "./doors.module.scss";
 
@@ -38,6 +40,7 @@ export const Door = (props: { number: number }) => {
 
   const [open, setOpen] = useState(false);
   const [shake, setShake] = useState(false);
+  const [play] = useSound(storebell);
 
   const stopShake = () => {
     setTimeout(function () {
@@ -60,6 +63,7 @@ export const Door = (props: { number: number }) => {
       onClick={() => {
         if (canOpen(number)) {
           setOpen(!open);
+          play();
           navigateToWordle();
         } else {
           setShake(true);
