@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import { Word } from "../components";
 import useSound from "use-sound";
 import achievementbell from "../assets/sounds/achievementbell.wav";
-import { answers } from "../words";
+import { allWords } from "../words";
+import { useWordleContext } from "../WordleContext";
 
 const keyboardLayout = {
   default: [
@@ -15,31 +16,36 @@ const keyboardLayout = {
 };
 
 export const Wordle = () => {
-  const [attempts, setAttempts] = useState([
-    "     ",
-    "     ",
-    "     ",
-    "     ",
-    "     ",
-    "     ",
-  ]);
+  const { gameState, saveWordleDay } = useWordleContext();
+  const { day } = useParams();
+  const parsedDay = Number(day);
+  const activeGameState = gameState[parsedDay];
+
+  const [attempts, setAttempts] = useState(
+    activeGameState?.attempts ?? [
+      "     ",
+      "     ",
+      "     ",
+      "     ",
+      "     ",
+      "     ",
+    ]
+  );
   const [activeGuess, setActiveGuess] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isDone, setIsDone] = useState(false);
+  const [isDone, setIsDone] = useState(activeGameState?.isCompleted ?? false);
 
   const maxAttempts = 6;
 
-  const { day } = useParams();
   const WORDLIST = import.meta.env.VITE_WORDLIST || "";
   const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
-  const todaysWord =
-    WORDLIST_PARSED[Number.parseInt(day || "") - 1 || 0] || "WORDS";
+  const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
   const [play] = useSound(achievementbell);
 
   const validateAttempt = () => {
     const testLength = activeGuess.length === 5;
     const testWord =
-      answers.includes(activeGuess.toLowerCase()) ||
+      allWords.includes(activeGuess.toLowerCase()) ||
       WORDLIST_PARSED.includes(activeGuess);
     return testLength && testWord;
   };
@@ -50,23 +56,30 @@ export const Wordle = () => {
   const saveAttempt = () => {
     const valid = validateAttempt();
 
-    if (activeIndex === maxAttempts || isDone) {
+    if (activeIndex === maxAttempts || isDone || !valid) {
       return;
     }
-    if (valid) {
-      setAttempts((prevAttempts) => {
-        const newAttempts = [...prevAttempts];
-        newAttempts[activeIndex] = activeGuess;
-        return newAttempts;
-      });
-      if (isCorrect()) {
-        setIsDone(true);
-        play();
-      } else {
-        if (activeIndex < maxAttempts) {
-          setActiveIndex((prevIndex) => prevIndex + 1);
-        }
-      }
+
+    const correct = isCorrect();
+    const nextActiveIndex = activeIndex + 1;
+
+    const newAttempts = [...attempts];
+    newAttempts[activeIndex] = activeGuess;
+    setAttempts(newAttempts);
+    saveWordleDay(
+      {
+        attempts: newAttempts,
+        isCompleted: correct || nextActiveIndex === maxAttempts,
+        isSuccessful: correct,
+      },
+      parsedDay
+    );
+
+    if (correct) {
+      setIsDone(true);
+      play();
+    } else {
+      setActiveIndex(nextActiveIndex);
     }
 
     setActiveGuess("");
