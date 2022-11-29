@@ -4,6 +4,8 @@ import Keyboard from "react-simple-keyboard";
 import { Word } from "../components";
 import useSound from "use-sound";
 import achievementbell from "../assets/sounds/achievementbell.wav";
+import keySound from "../assets/sounds/typewriterclick.wav";
+import enterSound from "../assets/sounds/typewriterreturnbell.wav";
 import { allWords } from "../words";
 import { useWordleContext } from "../WordleContext";
 
@@ -41,6 +43,8 @@ export const Wordle = () => {
   const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
   const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
   const [play] = useSound(achievementbell);
+  const [playKey] = useSound(keySound);
+  const [playEnter] = useSound(enterSound);
 
   const validateAttempt = () => {
     const testLength = activeGuess.length === 5;
@@ -80,13 +84,15 @@ export const Wordle = () => {
       play();
     } else {
       setActiveIndex(nextActiveIndex);
+      playEnter();
     }
 
     setActiveGuess("");
   };
 
   const addLetterToAttempt = (letter: string) => {
-    if (activeGuess.length < 5) {
+    if (activeGuess.length < 5 && !isDone) {
+      playKey();
       setActiveGuess((prevGuess) => prevGuess + letter.toUpperCase());
     }
   };

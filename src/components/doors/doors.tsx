@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { canOpen } from "../../utils";
 import useSound from "use-sound";
-import storebell from "../..//assets/sounds/storebell.wav";
+import storebell from "../../assets/sounds/storebell.wav";
 
 import styles from "./doors.module.scss";
 
