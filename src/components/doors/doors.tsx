@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { canOpen } from "../../utils";
 import useSound from "use-sound";
 import storebell from "../../assets/sounds/storebell.wav";
+import Elf from "../../assets/elf.svg";
 
 import styles from "./doors.module.scss";
 import { useWordleContext } from "../../WordleContext";
@@ -23,18 +24,25 @@ const nth = (d: number) => {
   }
 };
 
-export const DoorContainer = (props: { children: any }) => {
+export const DoorContainer = ({ children }: { children: any }) => {
   const day = dateNow.getDate() + nth(dateNow.getDate());
 
-  return <div className={styles.doorContainer}>{props.children}</div>;
+  return <div className={styles.doorContainer}>{children}</div>;
 };
 
-export const Door = (props: { number: number }) => {
+export const Door = ({
+  number,
+  alreadyOpened,
+  completed,
+}: {
+  number: number;
+  alreadyOpened: boolean;
+  completed: boolean;
+}) => {
   const navigate = useNavigate();
+
   const { isMuted } = useWordleContext();
   const volume = { volume: isMuted ? 0 : 1 };
-
-  const { number } = props;
 
   const [open, setOpen] = useState(false);
   const [shake, setShake] = useState(false);
@@ -54,9 +62,9 @@ export const Door = (props: { number: number }) => {
 
   return (
     <div
-      className={`${styles.backDoor} ${open ? styles.open : ""} ${
-        shake ? styles.shake : ""
-      }`}
+      className={`${styles.backDoor} ${
+        open || alreadyOpened ? styles.open : ""
+      } ${shake ? styles.shake : ""} ${completed ? styles.completed : ""}`}
       tabIndex={0}
       onClick={() => {
         if (canOpen(number)) {
@@ -69,6 +77,11 @@ export const Door = (props: { number: number }) => {
         }
       }}
     >
+      <div className={`${styles.elf}`}>
+        {completed && (
+          <img className={`${styles.elfImg}`} src={Elf} alt="An elf waving" />
+        )}
+      </div>
       <div className={`${styles.door}`}>
         <div className={styles.number}>{number}</div>
       </div>
