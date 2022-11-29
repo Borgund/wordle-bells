@@ -9,6 +9,7 @@ import {
 import { Home } from "./routes/Home";
 import { Wordle } from "./routes/Wordle";
 import { canOpen } from "./utils";
+import { WordleProvider } from "./WordleContext";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +31,10 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="App">
-      <RouterProvider router={router} />
-      <Snowfall style={{ zIndex: "1" }} snowflakeCount={40} />
+      <WordleProvider>
+        <RouterProvider router={router} />
+        <Snowfall style={{ zIndex: "1" }} snowflakeCount={40} />
+      </WordleProvider>
     </div>
   );
 }
