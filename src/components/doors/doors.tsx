@@ -24,19 +24,21 @@ const nth = (d: number) => {
   }
 };
 
-export const DoorContainer = (props: { children: any }) => {
+export const DoorContainer = ({ children }: { children: any }) => {
   const day = dateNow.getDate() + nth(dateNow.getDate());
 
-  return <div className={styles.doorContainer}>{props.children}</div>;
+  return <div className={styles.doorContainer}>{children}</div>;
 };
 
-export const Door = (props: {
+export const Door = ({
+  number,
+  alreadyOpened,
+  completed,
+}: {
   number: number;
   alreadyOpened: boolean;
   completed: boolean;
 }) => {
-  const { number, alreadyOpened, completed } = props;
-
   const navigate = useNavigate();
 
   const { isMuted } = useWordleContext();
