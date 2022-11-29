@@ -4,6 +4,7 @@ import Keyboard from "react-simple-keyboard";
 import { Word } from "../components";
 import useSound from "use-sound";
 import achievementbell from "../assets/sounds/achievementbell.wav";
+import { answers } from "../words";
 
 const keyboardLayout = {
   default: [
@@ -36,7 +37,11 @@ export const Wordle = () => {
   const [play] = useSound(achievementbell);
 
   const validateAttempt = () => {
-    return activeGuess.length === 5;
+    const testLength = activeGuess.length === 5;
+    const testWord =
+      answers.includes(activeGuess.toLowerCase()) ||
+      WORDLIST_PARSED.includes(activeGuess);
+    return testLength && testWord;
   };
   const isCorrect = () => {
     return activeGuess === todaysWord;
@@ -48,19 +53,22 @@ export const Wordle = () => {
     if (activeIndex === maxAttempts || isDone) {
       return;
     }
-    if (valid)
+    if (valid) {
       setAttempts((prevAttempts) => {
         const newAttempts = [...prevAttempts];
         newAttempts[activeIndex] = activeGuess;
         return newAttempts;
       });
-    if (isCorrect()) {
-      setIsDone(true);
-      play();
+      if (isCorrect()) {
+        setIsDone(true);
+        play();
+      } else {
+        if (activeIndex < maxAttempts) {
+          setActiveIndex((prevIndex) => prevIndex + 1);
+        }
+      }
     }
-    if (activeIndex < maxAttempts && valid && !isCorrect()) {
-      setActiveIndex((prevIndex) => prevIndex + 1);
-    }
+
     setActiveGuess("");
   };
 
