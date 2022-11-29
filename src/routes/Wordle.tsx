@@ -14,7 +14,14 @@ const keyboardLayout = {
 };
 
 export const Wordle = () => {
-  const [attempts, setAttempts] = useState(["", "", "", "", "", ""]);
+  const [attempts, setAttempts] = useState([
+    "     ",
+    "     ",
+    "     ",
+    "     ",
+    "     ",
+    "     ",
+  ]);
   const [activeGuess, setActiveGuess] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [isDone, setIsDone] = useState(false);
@@ -97,12 +104,14 @@ export const Wordle = () => {
 
   return (
     <div>
-      <p>
-        {activeIndex < maxAttempts && !isDone && <Word word={activeGuess} />}
-      </p>
-      {attempts
-        .map((attempt) => <Word word={attempt} correctWord={todaysWord} />)
-        .reverse()}
+      <p>{!isDone && <Word word={activeGuess} />}</p>
+      {attempts.map((attempt) => (
+        <Word
+          word={attempt}
+          correctWord={todaysWord}
+          submitted={attempt.trim().length > 0}
+        />
+      ))}
       <Keyboard
         theme={"hg-theme-default dark"}
         layout={keyboardLayout}

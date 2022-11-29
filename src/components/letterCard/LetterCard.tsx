@@ -4,27 +4,18 @@ import styles from "./LetterCard.module.scss";
 
 type LetterCardProps = {
   letter?: string;
-  correctPosition?: boolean;
-  correctLetter?: boolean;
+  state?:
+    | "submitted"
+    | "correctPosition"
+    | "correctLetter"
+    | "wrongLetter"
+    | "activeGuess";
 };
 
-const LetterCard = ({
-  letter,
-  correctLetter,
-  correctPosition,
-}: LetterCardProps) => {
+const LetterCard = ({ letter, state }: LetterCardProps) => {
   const charAtZero = letter?.charAt(0);
   return (
-    <div
-      className={classnames(
-        styles.cardWrapper,
-        correctPosition
-          ? styles.correctPosition
-          : correctLetter
-          ? styles.correctLetter
-          : ""
-      )}
-    >
+    <div className={classnames(styles.cardWrapper, styles[state ?? ""])}>
       {charAtZero}
     </div>
   );

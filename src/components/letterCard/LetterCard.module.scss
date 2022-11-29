@@ -1,6 +1,6 @@
 .cardWrapper {
-  border: 0.25rem solid var(--color-purple-dark);
-  background-color: var(--color-purple);
+  border: 0.25rem solid var(--color-dark-dark);
+  background-color: var(--color-semi-dark-dark);
   color: white;
   padding: 1rem;
   border-radius: 0.5rem;
@@ -19,5 +19,13 @@
   &.correctLetter {
     border: 0.25rem solid var(--color-yellow-dark);
     background-color: var(--color-yellow);
+  }
+  &.wrongLetter {
+    border: 0.25rem solid var(--color-red-dark);
+    background-color: var(--color-red);
+  }
+  &.submitted {
+    border: 0.25rem solid var(--color-purple-dark);
+    background-color: var(--color-purple);
   }
 }
