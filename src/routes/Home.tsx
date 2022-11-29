@@ -1,5 +1,5 @@
 import reactLogo from "../assets/react.svg";
-import dnbLogo from "../assets/dnb-logo.png";
+import dnbLogo from "../assets/Logo-white.png";
 import { FancyDay, DoorContainer, Door } from "../components";
 import CustomCountdown from "../components/countdown";
 
@@ -16,26 +16,22 @@ export const Home = () => {
   return (
     <div className="App">
       <div>
-        <img src="/vite.svg" className="logo" alt="Vite logo" />
-        <img src={reactLogo} className="logo react" alt="React logo" />
         <img src={dnbLogo} className="logo" alt="DNB logo" />
       </div>
-      <h1>Vite + React + DNB + Wordle = ❤️</h1>
-      <p>
-        Edit <code>src/App.tsx</code> to get christmas cracking! 🎅🏻
-      </p>
+      <h1>Merry christmas! 🎄</h1>
+      <h2>from the !backend profession group 🎅🏻</h2>
       {isBeforeChristmas && (
-        <>
+        <div>
           <p>Today is:</p>
           <FancyDay date={today} />
           <p>So it's chrismas in just:</p>
-        </>
+          <p>
+            <CustomCountdown date={christmas}>
+              <p>It's Christmas baby! Go do something else! 🎅🏻</p>
+            </CustomCountdown>
+          </p>
+        </div>
       )}
-      <p>
-        <CustomCountdown date={christmas}>
-          <p>It's Christmas baby! Go do something else! 🎅🏻</p>
-        </CustomCountdown>
-      </p>
       <DoorContainer>
         {calendarDays.map((day) => {
           return <Door key={`door_${day}`} number={day} />;

@@ -25,12 +25,7 @@ const nth = (d: number) => {
 export const DoorContainer = (props: { children: any }) => {
   const day = dateNow.getDate() + nth(dateNow.getDate());
 
-  return (
-    <>
-      <h1>(Let's pretend that) Today is the {day} of December!</h1>
-      <div className={styles.doorContainer}>{props.children}</div>
-    </>
-  );
+  return <div className={styles.doorContainer}>{props.children}</div>;
 };
 
 export const Door = (props: { number: number }) => {

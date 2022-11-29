@@ -8,6 +8,7 @@
   --color-red-dark: #bb2528;
   --color-red: #ea4630;
   --color-dark: #333333;
+  --color-dnb-green: #14555a;
 }
 
 #root {
@@ -32,6 +33,7 @@
 }
 
 body {
+  background-color: var(--color-dark);
   background-image: url("/src/assets/landscape.svg");
   background-position: left -20rem bottom -10rem;
   background-repeat: no-repeat;

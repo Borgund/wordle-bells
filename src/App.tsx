@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={router} />
-      <Snowfall style={{ zIndex: "-100" }} snowflakeCount={40} />
+      <Snowfall style={{ zIndex: "1" }} snowflakeCount={40} />
     </div>
   );
 }
