@@ -18,10 +18,11 @@ const keyboardLayout = {
 };
 
 export const Wordle = () => {
-  const { gameState, saveWordleDay } = useWordleContext();
+  const { gameState, saveWordleDay, isMuted } = useWordleContext();
   const { day } = useParams();
   const parsedDay = Number(day);
   const activeGameState = gameState[parsedDay];
+  const volume = { volume: isMuted ? 0 : 1 };
 
   const [attempts, setAttempts] = useState(
     activeGameState?.attempts ?? [
@@ -42,9 +43,9 @@ export const Wordle = () => {
   const WORDLIST = import.meta.env.VITE_WORDLIST || "";
   const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
   const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
-  const [play] = useSound(achievementbell);
-  const [playKey] = useSound(keySound);
-  const [playEnter] = useSound(enterSound);
+  const [play] = useSound(achievementbell, volume);
+  const [playKey] = useSound(keySound, volume);
+  const [playEnter] = useSound(enterSound, volume);
 
   const validateAttempt = () => {
     const testLength = activeGuess.length === 5;

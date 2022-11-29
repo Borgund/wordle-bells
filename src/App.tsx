@@ -9,7 +9,8 @@ import {
 import { Home } from "./routes/Home";
 import { Wordle } from "./routes/Wordle";
 import { canOpen } from "./utils";
-import { WordleProvider } from "./WordleContext";
+import { useWordleContext, WordleProvider } from "./WordleContext";
+import MuteButton from "./components/muteButton/MuteButton";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,7 @@ function App() {
   return (
     <div className="App">
       <WordleProvider>
+        <MuteButton />
         <RouterProvider router={router} />
         <Snowfall style={{ zIndex: "1" }} snowflakeCount={40} />
       </WordleProvider>

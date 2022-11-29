@@ -5,6 +5,7 @@ import useSound from "use-sound";
 import storebell from "../../assets/sounds/storebell.wav";
 
 import styles from "./doors.module.scss";
+import { useWordleContext } from "../../WordleContext";
 
 let dateNow = new Date();
 
@@ -30,12 +31,14 @@ export const DoorContainer = (props: { children: any }) => {
 
 export const Door = (props: { number: number }) => {
   const navigate = useNavigate();
+  const { isMuted } = useWordleContext();
+  const volume = { volume: isMuted ? 0 : 1 };
 
   const { number } = props;
 
   const [open, setOpen] = useState(false);
   const [shake, setShake] = useState(false);
-  const [play] = useSound(storebell);
+  const [play] = useSound(storebell, volume);
 
   const stopShake = () => {
     setTimeout(function () {
