@@ -10223,6 +10223,7 @@ const allowedGuesses = [
   "sangs",
   "sanko",
   "sansa",
+  "santa",
   "santo",
   "sants",
   "saola",
