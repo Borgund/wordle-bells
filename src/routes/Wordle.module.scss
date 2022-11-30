@@ -1,0 +1,21 @@
+.helpButton {
+  position: absolute;
+  margin-left: -1.562rem;
+  top: 1rem;
+  border: 0.125rem solid transparent;
+  font-weight: 500;
+  &:hover {
+    border: 0.125rem solid var(--color-green);
+  }
+}
+
+.backButton {
+  color: white;
+  font-size: 1.25rem;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  &:hover {
+    color: var(--color-red);
+  }
+}

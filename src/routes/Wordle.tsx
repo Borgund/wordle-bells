@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import { Word, WordleHelp } from "../components";
 import useSound from "use-sound";
@@ -8,6 +8,7 @@ import keySound from "../assets/sounds/typewriterclick.wav";
 import enterSound from "../assets/sounds/typewriterreturnbell.wav";
 import { allWords } from "../words";
 import { useWordleContext } from "../WordleContext";
+import styles from "./Wordle.module.scss";
 
 const keyboardLayout = {
   default: [
@@ -144,8 +145,16 @@ export const Wordle = () => {
 
   return (
     <div>
+      <Link
+        to="/"
+        className={styles.backButton}
+        onClick={() => setShowHelp((prevState) => !prevState)}
+      >
+        &lt; Back
+      </Link>
+
       <button
-        style={{ position: "absolute", top: "1rem" }}
+        className={styles.helpButton}
         onClick={() => setShowHelp((prevState) => !prevState)}
       >
         {showHelp ? "x" : "?"}

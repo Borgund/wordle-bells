@@ -1,6 +1,7 @@
 import { DoorContainer, Door } from "../components";
 import CustomCountdown from "../components/countdown";
 import { useWordleContext } from "../WordleContext";
+import styles from "./Home.module.scss";
 
 export const Home = () => {
   const { gameState } = useWordleContext();
@@ -12,13 +13,17 @@ export const Home = () => {
 
   return (
     <div className="App">
-      <h1>Ho ho ho! 🎄</h1>
-      <h2>
-        It's Christmas in just{" "}
-        <CustomCountdown date={new Date("2022-12-24")}>
-          <p>It's Christmas baby! Go do something else 🎅🏻</p>
-        </CustomCountdown>
-      </h2>
+      <div className={styles.textWrapper}>
+        <h1>Happy holidays! 🎄</h1>
+        <h2>
+          <CustomCountdown
+            date={new Date("2022-12-24")}
+            text="It's Christmas in just"
+          >
+            <p>It's Christmas baby! Go do something else 🎅🏻</p>
+          </CustomCountdown>
+        </h2>
+      </div>
 
       <DoorContainer>
         {calendarDays.map((day) => {
@@ -27,8 +32,9 @@ export const Home = () => {
             <Door
               key={`door_${day}`}
               number={day}
-              completed={dayState?.isSuccessful ?? false}
-              alreadyOpened={dayState?.isCompleted ?? false}
+              completed={dayState?.isCompleted ?? false}
+              successful={dayState?.isSuccessful ?? false}
+              alreadyOpened={!!dayState ?? false}
             />
           );
         })}

@@ -4,6 +4,7 @@ import { canOpen } from "../../utils";
 import useSound from "use-sound";
 import storebell from "../../assets/sounds/storebell.wav";
 import Elf from "../../assets/elf.svg";
+import bulb from "../../assets/bulb.svg";
 
 import styles from "./doors.module.scss";
 import { useWordleContext } from "../../WordleContext";
@@ -34,10 +35,12 @@ export const Door = ({
   number,
   alreadyOpened,
   completed,
+  successful,
 }: {
   number: number;
   alreadyOpened: boolean;
   completed: boolean;
+  successful?: boolean;
 }) => {
   const navigate = useNavigate();
 
@@ -64,7 +67,9 @@ export const Door = ({
     <div
       className={`${styles.backDoor} ${
         open || alreadyOpened ? styles.open : ""
-      } ${shake ? styles.shake : ""} ${completed ? styles.completed : ""}`}
+      } ${shake ? styles.shake : ""} ${successful ? styles.successful : ""} ${
+        completed && !successful ? styles.failed : ""
+      }`}
       tabIndex={0}
       onClick={() => {
         if (canOpen(number)) {
@@ -78,8 +83,15 @@ export const Door = ({
       }}
     >
       <div className={`${styles.elf}`}>
-        {completed && (
+        {successful && (
           <img className={`${styles.elfImg}`} src={Elf} alt="An elf waving" />
+        )}
+        {completed && !successful && (
+          <img
+            className={`${styles.failImg}`}
+            src={bulb}
+            alt="A broken christmas ball!"
+          />
         )}
       </div>
       <div className={`${styles.door}`}>

@@ -4,9 +4,10 @@ import Countdown, { CountdownRenderProps, zeroPad } from "react-countdown";
 type CountdownProps = {
   date: Date;
   children: React.ReactElement | React.ReactElement[];
+  text?: string;
 };
 
-const CustomCountdown = ({ date, children }: CountdownProps) => {
+const CustomCountdown = ({ date, children, text }: CountdownProps) => {
   const customRenderer = ({
     days,
     hours,
@@ -24,15 +25,19 @@ const CustomCountdown = ({ date, children }: CountdownProps) => {
     } else {
       // Render a countdown
       return (
-        <span>
-          {`${pluralise(days, "day")} ${pluralise(hours, "hour")} ${pluralise(
-            minutes,
-            "minute"
-          )} ${pluralise(seconds, "second")}`}
-        </span>
+        <>
+          {!completed && <p>{text}</p>}
+          <span>
+            {`${pluralise(days, "day")} ${pluralise(hours, "hour")} ${pluralise(
+              minutes,
+              "minute"
+            )} ${pluralise(seconds, "second")}`}
+          </span>
+        </>
       );
     }
   };
+
   return (
     <>
       <Countdown date={date} renderer={customRenderer}>
