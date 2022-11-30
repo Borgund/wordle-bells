@@ -2,14 +2,16 @@ import classnames from "classnames";
 import React from "react";
 import styles from "./LetterCard.module.scss";
 
+export type LetterState =
+  | "submitted"
+  | "correctPosition"
+  | "correctLetter"
+  | "wrongLetter"
+  | "activeGuess";
+
 type LetterCardProps = {
   letter?: string;
-  state?:
-    | "submitted"
-    | "correctPosition"
-    | "correctLetter"
-    | "wrongLetter"
-    | "activeGuess";
+  state?: LetterState;
 };
 
 const LetterCard = ({ letter, state }: LetterCardProps) => {
