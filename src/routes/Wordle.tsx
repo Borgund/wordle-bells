@@ -49,26 +49,27 @@ export const Wordle = () => {
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
+  const isCorrect = () => attempts[activeIndex - 1] === todaysWord;
 
   const validateAttempt = () => {
+    const testAttempts = activeIndex < maxAttempts;
     const testLength = activeGuess.length === 5;
     const testWord =
       allWords.includes(activeGuess.toLowerCase()) ||
       WORDLIST_PARSED.includes(activeGuess);
-    return testLength && testWord;
-  };
-  const isCorrect = () => {
-    return activeGuess === todaysWord;
+    return testAttempts && testLength && testWord;
   };
 
   const saveAttempt = () => {
     const valid = validateAttempt();
-
-    if (activeIndex === maxAttempts || isDone || !valid) {
+    if (activeIndex === maxAttempts) {
+      setIsDone(true);
+      return;
+    }
+    if (isDone || !valid) {
       return;
     }
 
-    const correct = isCorrect();
     const nextActiveIndex = activeIndex + 1;
 
     const newAttempts = [...attempts];
@@ -77,13 +78,13 @@ export const Wordle = () => {
     saveWordleDay(
       {
         attempts: newAttempts,
-        isCompleted: correct || nextActiveIndex === maxAttempts,
-        isSuccessful: correct,
+        isCompleted: isCorrect() || nextActiveIndex === maxAttempts,
+        isSuccessful: isCorrect(),
       },
       parsedDay
     );
 
-    if (correct) {
+    if (isCorrect()) {
       setIsDone(true);
       play();
     } else {
@@ -162,7 +163,9 @@ export const Wordle = () => {
       {showHelp && <WordleHelp />}
       {!showHelp && (
         <>
-          <p>{!isDone && <Word word={activeGuess} />}</p>
+          {isCorrect() && <p>Yey! You are correct! ❤️</p>}
+          {isDone && !isCorrect() && <p>Oh no... Too bad! 😈</p>}
+          {!isDone && <Word word={activeGuess} />}
           {attempts.map((attempt) => (
             <Word
               word={attempt}
