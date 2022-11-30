@@ -36,7 +36,8 @@ export const Wordle = () => {
     ]
   );
   const [activeGuess, setActiveGuess] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
+  const initialIndex = attempts.filter((x) => x.trim().length > 0).length;
+  const [activeIndex, setActiveIndex] = useState(initialIndex ?? 0);
   const [isDone, setIsDone] = useState(activeGameState?.isCompleted ?? false);
 
   const maxAttempts = 6;
