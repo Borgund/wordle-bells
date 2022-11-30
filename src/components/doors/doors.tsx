@@ -74,7 +74,9 @@ export const Door = ({
       onClick={() => {
         if (canOpen(number)) {
           setOpen(!open);
-          play();
+          if (!alreadyOpened) {
+            play();
+          }
           navigateToWordle();
         } else {
           setShake(true);

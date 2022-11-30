@@ -8,7 +8,7 @@ const WordleHelp = ({}: WordleHelpProps) => {
     <>
       <h1>How to play</h1>
       <p>Guess the word in 6 attempts.</p>
-      <p>Each guess must be a vapd 5-letter word.</p>
+      <p>Each guess must be a valid 5-letter word.</p>
       <p>
         The color of the tile will change to show how close your guess was to
         the correct word.
