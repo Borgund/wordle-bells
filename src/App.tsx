@@ -33,8 +33,8 @@ function App() {
   return (
     <div className="App">
       <WordleProvider>
-        <MuteButton />
         <RouterProvider router={router} />
+        <MuteButton />
         <Snowfall style={{ zIndex: "1" }} snowflakeCount={40} />
       </WordleProvider>
     </div>
