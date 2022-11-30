@@ -58,9 +58,25 @@ export const Door = ({
   };
 
   const navigateToWordle = () => {
-    setTimeout(() => {
-      navigate(`/wordle/${number}`);
-    }, 1000);
+    setTimeout(
+      () => {
+        navigate(`/wordle/${number}`);
+      },
+      alreadyOpened ? 0 : 600
+    );
+  };
+
+  const handleClick = () => {
+    if (canOpen(number)) {
+      setOpen(!open);
+      if (!alreadyOpened) {
+        play();
+      }
+      navigateToWordle();
+    } else {
+      setShake(true);
+      stopShake();
+    }
   };
 
   return (
@@ -71,16 +87,10 @@ export const Door = ({
         completed && !successful ? styles.failed : ""
       }`}
       tabIndex={0}
-      onClick={() => {
-        if (canOpen(number)) {
-          setOpen(!open);
-          if (!alreadyOpened) {
-            play();
-          }
-          navigateToWordle();
-        } else {
-          setShake(true);
-          stopShake();
+      onClick={handleClick}
+      onKeyUp={({ key }) => {
+        if (key === "Enter" || key === " ") {
+          handleClick();
         }
       }}
     >
