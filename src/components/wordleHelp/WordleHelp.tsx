@@ -14,15 +14,15 @@ const WordleHelp = ({}: WordleHelpProps) => {
         the correct word.
       </p>
       <h2>Examples</h2>
-      <Word word="BANKS" correctWord="PILLS" />
+      <Word word="BANKS" correctWord="PILLS" submitted />
       <p>
         <b>S</b> is in the word and in the correct spot.
       </p>
-      <Word word="PRINT" correctWord="PILLS" />
+      <Word word="PRINT" correctWord="PILLS" submitted />
       <p>
         <b>P</b> and <b>I</b> is in the word, but <b>I</b> is in the wrong spot.
       </p>
-      <Word word="MONEY" correctWord="PILLS" />
+      <Word word="MONEY" correctWord="PILLS" submitted />
       <p>Here none of the letter in the word is in the correct word.</p>
       <h3>Good luck!</h3>
     </>
