@@ -49,7 +49,8 @@ export const Wordle = () => {
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
-  const isCorrect = () => attempts[activeIndex - 1] === todaysWord;
+  const isCorrect = () =>
+    activeGuess === todaysWord || attempts.includes(todaysWord);
 
   const validateAttempt = () => {
     const testAttempts = activeIndex < maxAttempts;
@@ -62,16 +63,11 @@ export const Wordle = () => {
 
   const saveAttempt = () => {
     const valid = validateAttempt();
-    if (activeIndex === maxAttempts) {
-      setIsDone(true);
-      return;
-    }
-    if (isDone || !valid) {
-      return;
-    }
 
+    if (!valid) {
+      return;
+    }
     const nextActiveIndex = activeIndex + 1;
-
     const newAttempts = [...attempts];
     newAttempts[activeIndex] = activeGuess;
     setAttempts(newAttempts);
@@ -90,6 +86,9 @@ export const Wordle = () => {
     } else {
       setActiveIndex(nextActiveIndex);
       playEnter();
+      if (nextActiveIndex === maxAttempts) {
+        setIsDone(true);
+      }
     }
 
     setActiveGuess("");
@@ -153,7 +152,6 @@ export const Wordle = () => {
       >
         &lt; Back
       </Link>
-
       <button
         className={styles.helpButton}
         onClick={() => setShowHelp((prevState) => !prevState)}
@@ -163,7 +161,7 @@ export const Wordle = () => {
       {showHelp && <WordleHelp />}
       {!showHelp && (
         <>
-          {isCorrect() && <p>Yey! You are correct! ❤️</p>}
+          {isDone && isCorrect() && <p>Yey! You are correct! ❤️</p>}
           {isDone && !isCorrect() && <p>Oh no... Too bad! 😈</p>}
           {!isDone && <Word word={activeGuess} />}
           {attempts.map((attempt) => (
