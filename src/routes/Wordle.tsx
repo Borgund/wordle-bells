@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
-import { Word } from "../components";
+import { Word, WordleHelp } from "../components";
 import useSound from "use-sound";
 import achievementbell from "../assets/sounds/achievementbell.wav";
 import keySound from "../assets/sounds/typewriterclick.wav";
@@ -23,6 +23,7 @@ export const Wordle = () => {
   const parsedDay = Number(day);
   const activeGameState = gameState[parsedDay];
   const volume = { volume: isMuted ? 0 : 1 };
+  const [showHelp, setShowHelp] = useState(false);
 
   const [attempts, setAttempts] = useState(
     activeGameState?.attempts ?? [
@@ -101,6 +102,9 @@ export const Wordle = () => {
   const removeLetterFromAttempt = () => {
     setActiveGuess((prevGuess) => prevGuess.slice(0, -1));
   };
+  const removeAllLettersFromAttempt = () => {
+    setActiveGuess("");
+  };
 
   const handleKeyDown = ({ key }: KeyboardEvent) => {
     const letterRegex = /[a-zA-Z]/;
@@ -112,6 +116,13 @@ export const Wordle = () => {
     }
     if (key === "Backspace") {
       removeLetterFromAttempt();
+    }
+    if (key === "Escape") {
+      if (showHelp) {
+        setShowHelp(false);
+      } else {
+        removeAllLettersFromAttempt();
+      }
     }
   };
 
@@ -132,20 +143,31 @@ export const Wordle = () => {
 
   return (
     <div>
-      <p>{!isDone && <Word word={activeGuess} />}</p>
-      {attempts.map((attempt) => (
-        <Word
-          word={attempt}
-          correctWord={todaysWord}
-          submitted={attempt.trim().length > 0}
-        />
-      ))}
-      <Keyboard
-        theme={"hg-theme-default dark"}
-        layout={keyboardLayout}
-        layoutName="default"
-        onKeyPress={onKeyPress}
-      />
+      <button
+        style={{ position: "absolute", top: "1rem" }}
+        onClick={() => setShowHelp((prevState) => !prevState)}
+      >
+        {showHelp ? "x" : "?"}
+      </button>
+      {showHelp && <WordleHelp />}
+      {!showHelp && (
+        <>
+          <p>{!isDone && <Word word={activeGuess} />}</p>
+          {attempts.map((attempt) => (
+            <Word
+              word={attempt}
+              correctWord={todaysWord}
+              submitted={attempt.trim().length > 0}
+            />
+          ))}
+          <Keyboard
+            theme={"hg-theme-default dark"}
+            layout={keyboardLayout}
+            layoutName="default"
+            onKeyPress={onKeyPress}
+          />
+        </>
+      )}
     </div>
   );
 };
