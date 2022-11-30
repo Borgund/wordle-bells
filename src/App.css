@@ -19,6 +19,7 @@
   padding: 1rem;
   width: 100%;
   text-align: center;
+  color: white;
 }
 
 @media screen and (min-width: 40rem) {
