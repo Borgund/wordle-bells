@@ -40,6 +40,7 @@ const Word = ({ word, correctWord, submitted }: WordProps) => {
           state={submitted ? letterStates[index] : "activeGuess"}
         />
       ))}
+      {!word && <LetterCard />}
     </div>
   );
 };
