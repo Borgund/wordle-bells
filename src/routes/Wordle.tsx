@@ -162,7 +162,9 @@ export const Wordle = () => {
       {!showHelp && (
         <>
           {isDone && isCorrect() && <p>Yey! You are correct! ❤️</p>}
-          {isDone && !isCorrect() && <p>Oh no... Too bad! 😈</p>}
+          {isDone && !isCorrect() && (
+            <p>Oh no... Too bad! 😈 The correct word was {todaysWord}</p>
+          )}
           {!isDone && <Word word={activeGuess} />}
           {attempts.map((attempt) => (
             <Word
