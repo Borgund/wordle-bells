@@ -5,7 +5,7 @@ import styles from "./Word.module.scss";
 
 type WordProps = { word: string; correctWord?: string; submitted?: boolean };
 
-const getLetterStates = (guess: string, correctWord = "") => {
+export const getLetterStates = (guess: string, correctWord = "") => {
   const guessLetters = guess.split("");
   const correctWordLetters = correctWord.split("");
   const letterStates: LetterState[] = Array(5).fill("wrongLetter");

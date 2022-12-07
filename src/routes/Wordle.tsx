@@ -9,6 +9,7 @@ import enterSound from "../assets/sounds/typewriterreturnbell.wav";
 import { allWords } from "../words";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
+import { getLetterStates } from "../components/word/Word";
 
 const keyboardLayout = {
   default: [
@@ -138,6 +139,34 @@ export const Wordle = () => {
     }
   };
 
+  const emojiAttempt = (word: string): string => {
+    const letterStates = getLetterStates(word, todaysWord);
+    return letterStates
+      .map((letterState) => {
+        switch (letterState) {
+          case "correctPosition":
+            return "🟩";
+          case "correctLetter":
+            return "🟨";
+          default:
+            return "🟥";
+        }
+      })
+      .toString()
+      .replaceAll(",", "");
+  };
+
+  const emojify = () => {
+    const string =
+      "" + attempts.map((attempt) => "" + emojiAttempt(attempt) + "\n");
+    return string.replaceAll(",", "");
+  };
+
+  const handleCopyResults = () => {
+    const text = `My result from the ${day}. door was: \n${emojify()} \nSee if you can beat that at: \nhttps://wordle-bells.netlify.app/`;
+    navigator.clipboard.writeText(text);
+  };
+
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
@@ -164,6 +193,11 @@ export const Wordle = () => {
           {isDone && isCorrect() && <p>Yey! You are correct! ❤️</p>}
           {isDone && !isCorrect() && (
             <p>Oh no... Too bad! 😈 The correct word was {todaysWord}</p>
+          )}
+          {isDone && (
+            <button className={styles.copyButton} onClick={handleCopyResults}>
+              Copy to clipboard
+            </button>
           )}
           {!isDone && <Word word={activeGuess} />}
           {attempts.map((attempt) => (
