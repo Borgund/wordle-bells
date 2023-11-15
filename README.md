@@ -6,11 +6,9 @@
 
 This project is meant to bootstrap your holiday spirits! 🎄
 
-## Available Scripts
+In the project directory, you can make santas elves do the following:
 
-In the project directory, you can make santas elves run:
-
-### First time (pnpm setup)
+## First time (pnpm setup)
 
 ![image](https://github.com/Borgund/wordle-bells/assets/36839009/95ba0431-0cfb-484d-a10e-678ff390dc0b)
 
@@ -21,7 +19,7 @@ Concluding a long and ardous process it was decided that [pnpm](https://pnpm.io/
 Make the elves take a course in the new system by running
 `npm install -g pnpm`
 
-### Development - `pnpm ho-ho`
+## Development - `pnpm ho-ho`
 
 ![image](https://github.com/Borgund/wordle-bells/assets/36839009/1222ca33-c70a-4bb6-a835-9c238a2dd4f6)
 
@@ -29,7 +27,7 @@ A strong elve is picked and forced into Rudolf harness, this enables the process
 
 `pnpm ho-ho` then open [http://localhost:5173](http://localhost:5173) to see it in action.
 
-### Production build - `pnpm jingle-bells`
+## Production build - `pnpm jingle-bells`
 
 ![image](https://github.com/Borgund/wordle-bells/assets/36839009/bd8789e3-3031-47f5-9def-37afced3a564)
 
