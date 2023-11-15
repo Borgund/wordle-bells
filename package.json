@@ -1,7 +1,7 @@
 {
   "name": "wordle-bells",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "license": "No-steal-please",
   "scripts": {
@@ -14,19 +14,19 @@
   "dependencies": {
     "classnames": "^2.3.2",
     "react": "^18.2.0",
-    "react-countdown": "^2.3.4",
+    "react-countdown": "^2.3.5",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.4.3",
-    "react-simple-keyboard": "^3.4.240",
+    "react-router-dom": "^6.18.0",
+    "react-simple-keyboard": "^3.7.37",
     "react-snowfall": "^1.2.1",
-    "sass": "^1.56.1",
+    "sass": "^1.69.5",
     "use-sound": "^4.0.1"
   },
   "devDependencies": {
-    "@types/react": "^18.0.24",
-    "@types/react-dom": "^18.0.8",
-    "@vitejs/plugin-react": "^2.2.0",
-    "typescript": "^4.6.4",
-    "vite": "^3.2.3"
+    "@types/react": "^18.2.37",
+    "@types/react-dom": "^18.2.15",
+    "@vitejs/plugin-react": "^4.1.1",
+    "typescript": "^4.9.5",
+    "vite": "^4.5.0"
   }
 }
