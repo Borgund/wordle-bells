@@ -7,8 +7,8 @@
   --color-yellow: #f8b229;
   --color-red-dark: #bb2528;
   --color-red: #ea4630;
-  --color-dark: #333333;
-  --color-dark-dark: #222222;
+  --color-x-mas-blue-sky: #141a56;
+  --color-dark: #222222;
   --color-semi-dark-dark: #313131;
   --color-dnb-green: #14555a;
   --color-dark-not-really: #999999;
@@ -44,7 +44,7 @@
 }
 
 body {
-  background-color: var(--color-dark);
+  background-color: var(--color-x-mas-blue-sky);
   background-image: url("/src/assets/landscape.svg");
   background-position: left -20rem bottom -10rem;
   background-repeat: no-repeat;
@@ -60,7 +60,7 @@ body {
 }
 
 .simple-keyboard.dark {
-  background: var(--color-dark);
+  background: var(--color-x-mas-blue-sky);
   border-radius: 0;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
