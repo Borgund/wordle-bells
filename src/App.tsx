@@ -35,7 +35,7 @@ function App() {
       <WordleProvider>
         <RouterProvider router={router} />
         <MuteButton />
-        <Snowfall style={{ zIndex: "1" }} snowflakeCount={80} />
+        <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
       </WordleProvider>
     </div>
   );

@@ -1,5 +1,6 @@
 import { DoorContainer, Door } from "../components";
 import CustomCountdown from "../components/countdown";
+import FlashlightScene from "../components/flashlightScene/FlashlightScene";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Home.module.scss";
 
@@ -13,6 +14,7 @@ export const Home = () => {
 
   return (
     <div className="App">
+      <FlashlightScene children={[<Flashlight />]} />
       <div className={styles.textWrapper}>
         <h1>Happy holidays! 🎄</h1>
         <h2>
