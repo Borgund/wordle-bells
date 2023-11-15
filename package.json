@@ -6,7 +6,9 @@
   "license": "No-steal-please",
   "scripts": {
     "dev": "vite",
+    "ho-ho": "vite",
     "build": "tsc && vite build",
+    "jingle-bells": "tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
