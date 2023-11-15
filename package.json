@@ -7,8 +7,9 @@
   "scripts": {
     "dev": "vite",
     "ho-ho": "vite",
-    "build": "tsc && vite build",
     "jingle-bells": "tsc && vite build",
+    "print": "node src/print.js",
+    "build": "tsc && vite build && print",
     "preview": "vite preview"
   },
   "dependencies": {
