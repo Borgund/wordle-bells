@@ -1,6 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/7950823a-a160-4d18-aaff-6df108936fd7/deploy-status)](https://app.netlify.com/sites/wordle-bells/deploys)
 
 # HO HO HO! Getting Festive with Create React App 🎅🏻
+![image](https://github.com/Borgund/wordle-bells/assets/36839009/7aae6173-8c61-4ce5-a0fa-1c2ab7916b43)
 
 This project is meant to bootstrap your holiday spirits! 🎄
 
