@@ -6,7 +6,8 @@
   "license": "No-steal-please",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "print": "node src/print.js",
+    "build": "tsc && vite build && print",
     "preview": "vite preview"
   },
   "dependencies": {
