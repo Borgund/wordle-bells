@@ -1,0 +1,11 @@
+.flashlight {
+  position: absolute;
+  transform: translate(-50%, -50%);
+
+  background-image: url("./texture_flashlight.png");
+  background-size: contain;
+
+  mix-blend-mode: screen;
+
+  filter: brightness(1.35);
+}

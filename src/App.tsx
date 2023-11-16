@@ -36,18 +36,16 @@ function App() {
   const { logout } = useAuth();
 
   return (
-    <>
-      <div className="App">
-        <LoginForm>
-          <WordleProvider>
-            <RouterProvider router={router} />
-            <MuteButton />
-            <Snowfall style={{ zIndex: "1" }} snowflakeCount={80} />
-          </WordleProvider>
-          <button onClick={logout}>Sign out</button>
-        </LoginForm>
-      </div>
-    </>
+    <div className="App">
+      <LoginForm>
+        <WordleProvider>
+          <RouterProvider router={router} />
+          <MuteButton />
+          <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
+        </WordleProvider>
+        <button onClick={logout}>Sign out</button>
+      </LoginForm>
+    </div>
   );
 }
 
