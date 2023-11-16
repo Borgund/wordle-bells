@@ -13,7 +13,7 @@ export const LoginForm = ({ children }: { children: React.ReactNode }) => {
     callback: Dispatch<SetStateAction<string | undefined>>,
     { target: { value } }: React.ChangeEvent<HTMLInputElement>
   ) => callback(value);
-  if (!isLoggedIn) {
+  if (!isLoggedIn()) {
     return (
       <>
         <p>You need to be logged in so santa can keep an eye on you</p>

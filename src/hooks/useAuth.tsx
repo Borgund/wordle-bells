@@ -12,8 +12,6 @@ export function useAuth() {
   );
 
   const { authStore } = client;
-
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<AuthModel>();
   const [token, setToken] = useState<string>();
 
@@ -21,7 +19,6 @@ export function useAuth() {
     return authStore.onChange((token: string, model: AuthModel) => {
       setToken(token);
       setUser(model);
-      setIsLoggedIn(!!token && !!model);
     });
   }, []);
 
@@ -41,9 +38,12 @@ export function useAuth() {
       .create({ email, password, passwordConfirm: password });
   }, []);
 
+  const isLoggedIn = useCallback(() => {
+    return authStore.isValid;
+  }, []);
+
   const logout = useCallback(() => {
     client.authStore.clear();
-    setIsLoggedIn(false);
   }, []);
 
   return {
