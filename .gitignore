@@ -6,7 +6,7 @@ dist/
 coverage/
 .vscode/
 yarn.lock
-package.lock
+package-lock.json
 
 *.log
 # Output directory

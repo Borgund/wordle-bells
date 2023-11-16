@@ -11,6 +11,8 @@ import { Wordle } from "./routes/Wordle";
 import { canOpen } from "./utils";
 import { WordleProvider } from "./WordleContext";
 import MuteButton from "./components/muteButton/MuteButton";
+import { LoginForm } from "./components/login/LoginForm";
+import { useAuth } from "./hooks/useAuth";
 
 const router = createBrowserRouter([
   {
@@ -24,20 +26,28 @@ const router = createBrowserRouter([
       if (!parsedNumber || !canOpen(parsedNumber) || parsedNumber > 24) {
         return redirect("/");
       }
+      return null;
     },
     element: <Wordle />,
   },
 ]);
 
 function App() {
+  const { logout } = useAuth();
+
   return (
-    <div className="App">
-      <WordleProvider>
-        <RouterProvider router={router} />
-        <MuteButton />
-        <Snowfall style={{ zIndex: "1" }} snowflakeCount={80} />
-      </WordleProvider>
-    </div>
+    <>
+      <div className="App">
+        <LoginForm>
+          <WordleProvider>
+            <RouterProvider router={router} />
+            <MuteButton />
+            <Snowfall style={{ zIndex: "1" }} snowflakeCount={80} />
+          </WordleProvider>
+          <button onClick={logout}>Sign out</button>
+        </LoginForm>
+      </div>
+    </>
   );
 }
 
