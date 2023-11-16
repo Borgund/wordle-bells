@@ -28,6 +28,12 @@ export function useAuth() {
       .authWithOAuth2({ provider: "github" });
   }, []);
 
+  const loginGitlab = useCallback(async () => {
+    return await client
+      .collection("users")
+      .authWithOAuth2({ provider: "gitlab" });
+  }, []);
+
   const loginEmail = useCallback(async (email: string, password: string) => {
     return await client.collection("users").authWithPassword(email, password);
   }, []);
@@ -52,6 +58,7 @@ export function useAuth() {
     user,
     registerEmail,
     loginGithub,
+    loginGitlab,
     loginEmail,
     logout,
   };
