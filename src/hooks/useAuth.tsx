@@ -23,15 +23,16 @@ export function useAuth() {
   }, []);
 
   const loginGithub = useCallback(async () => {
-    return await client
-      .collection("users")
-      .authWithOAuth2({ provider: "github" });
+    return await client.collection("users").authWithOAuth2({
+      provider: "github",
+    });
   }, []);
 
   const loginGitlab = useCallback(async () => {
-    return await client
-      .collection("users")
-      .authWithOAuth2({ provider: "gitlab" });
+    return await client.collection("users").authWithOAuth2({
+      provider: "gitlab",
+      scopes: ["read_user"],
+    });
   }, []);
 
   const loginEmail = useCallback(async (email: string, password: string) => {

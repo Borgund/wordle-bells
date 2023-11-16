@@ -18,7 +18,6 @@ export const LoginForm = ({ children }: { children: React.ReactNode }) => {
       <>
         <p>You need to be logged in so santa can keep an eye on you</p>
         <button onClick={loginGithub}>Login with GitHub 🐙</button>
-        <button onClick={loginGitlab}>Login with GitLab 🦊</button>
         {/*  <p>or with plain good old email</p>
         <input
           type="email"
