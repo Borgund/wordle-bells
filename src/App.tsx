@@ -37,12 +37,13 @@ function App() {
 
   return (
     <div className="App">
-      <WordleProvider>
-        <RouterProvider router={router} />
-        <MuteButton />
-        <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
-      </WordleProvider>
-      <button onClick={logout}>Sign out</button>
+      <LoginForm>
+        <WordleProvider>
+          <RouterProvider router={router} />
+          <MuteButton />
+          <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
+        </WordleProvider>
+        <button onClick={logout}>Sign out</button>
       </LoginForm>
     </div>
   );
