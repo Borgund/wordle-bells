@@ -1,6 +1,9 @@
 import FlashlightScene from "./FlashlightScene";
 import Flashlight from "./Flashlight";
 
-FlashlightScene.Flashlight = Flashlight;
+const Flash = {
+  Scene: FlashlightScene,
+  Light: Flashlight,
+};
 
-export default FlashlightScene;
+export default Flash;

@@ -1,8 +1,19 @@
+import { useState } from "react";
 import { DoorContainer, Door } from "../components";
 import CustomCountdown from "../components/countdown";
-import FlashlightScene from "../components/flashlightScene/FlashlightScene";
+import Flash from "../components/flashlightScene";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Home.module.scss";
+
+const Flashlights = () => {
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+
+  return (
+    <Flash.Scene on_position={setPos}>
+      <Flash.Light x={pos.x} y={pos.y} s={1.5} />
+    </Flash.Scene>
+  );
+};
 
 export const Home = () => {
   const { gameState } = useWordleContext();
@@ -14,7 +25,7 @@ export const Home = () => {
 
   return (
     <div className="App">
-      <FlashlightScene children={[<Flashlight />]} />
+      <Flashlights />
       <div className={styles.textWrapper}>
         <h1>Happy holidays! 🎄</h1>
         <h2>
