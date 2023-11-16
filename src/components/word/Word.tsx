@@ -36,6 +36,7 @@ const Word = ({ word, correctWord, submitted }: WordProps) => {
     <div className={styles.wordWrapper}>
       {word?.split("").map((letter, index) => (
         <LetterCard
+          key={letter + index}
           letter={letter}
           state={submitted ? letterStates[index] : "activeGuess"}
         />
