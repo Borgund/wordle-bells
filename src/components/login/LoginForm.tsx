@@ -1,38 +1,77 @@
-import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
-import { useCallback } from "react";
-import { Dispatch } from "react";
-import { SetStateAction } from "react";
+import { useForm } from "react-hook-form";
+import styles from "./LoginForm.module.scss";
 
 export const LoginForm = ({ children }: { children: React.ReactNode }) => {
-  const { isLoggedIn, loginGithub, loginGitlab, loginEmail } = useAuth();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const {
+    isLoggedIn,
+    logout,
+    loginWithProvider,
+    loginEmail,
+    registerEmail,
+    hasVerifiedEmail,
+    requestVerification,
+  } = useAuth();
 
-  const bindInput = (
-    callback: Dispatch<SetStateAction<string | undefined>>,
-    { target: { value } }: React.ChangeEvent<HTMLInputElement>
-  ) => callback(value);
+  type FormValues = {
+    email: string;
+    password: string;
+  };
+
+  const { register, handleSubmit } = useForm<FormValues>();
+  const onSubmit = ({ email, password }: FormValues) => {
+    loginEmail(email, password);
+  };
+  const onRegister = ({ email, password }: FormValues) => {
+    registerEmail(email, password);
+  };
+
   if (!isLoggedIn()) {
     return (
       <>
         <p>You need to be logged in so santa can keep an eye on you</p>
-        <button onClick={loginGithub}>Login with GitHub 🐙</button>
-        {/*  <p>or with plain good old email</p>
-        <input
-          type="email"
-          value={email}
-          onChange={(event) => bindInput(setEmail, event)}
-        ></input>
-        <input
-          type="password"
-          value={password}
-          onChange={(event) => bindInput(setPassword, event)}
-        ></input>
-        <button onClick={() => loginEmail("", "")}></button> */}
+        <button onClick={() => loginWithProvider("github")}>
+          Login with GitHub 🐙
+        </button>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <fieldset>
+            <legend>or with plain good old email</legend>
+            <label>
+              E-mail
+              <input
+                type="email"
+                placeholder="E-mail"
+                {...register("email")}
+              ></input>
+            </label>
+            <label>
+              Password
+              <input
+                type="password"
+                placeholder="Password"
+                minLength={8}
+                {...register("password")}
+              ></input>
+            </label>
+            <button type="submit">Login</button>
+            <button type="button" onClick={handleSubmit(onRegister)}>
+              or Register
+            </button>
+          </fieldset>
+        </form>
       </>
     );
   } else {
-    return <>{children}</>;
+    if (!hasVerifiedEmail) {
+      return (
+        <>
+          Please verify your email:{" "}
+          <button onClick={requestVerification}>Send verification email</button>
+          or log out: <button onClick={logout}>Logout</button>
+        </>
+      );
+    } else {
+      return <>{children}</>;
+    }
   }
 };
