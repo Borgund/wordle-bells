@@ -16,7 +16,7 @@ const Flashlights = () => {
 };
 
 export const Home = () => {
-  const { gameState } = useWordleContext();
+  const { gameState, thereWillBeLight } = useWordleContext();
 
   const calendarDays = [
     6, 19, 4, 11, 13, 1, 7, 18, 21, 17, 2, 14, 10, 15, 5, 9, 22, 24, 20, 23, 8,
@@ -25,7 +25,7 @@ export const Home = () => {
 
   return (
     <div className="App">
-      <Flashlights />
+      {thereWillBeLight && <Flashlights />}
       <div className={styles.textWrapper}>
         <h1>Happy holidays! 🎄</h1>
         <h2>
