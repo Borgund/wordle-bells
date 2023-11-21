@@ -3,12 +3,10 @@
   padding: 0.5rem;
   top: 1rem;
   right: 1rem;
-  .cogIcon {
-    font-size: 2rem;
-  }
   & > button {
     background-color: transparent;
     margin-bottom: 0.5rem;
+    font-size: 1.25rem;
   }
   .children {
     display: flex;
