@@ -1,0 +1,13 @@
+.cog {
+  position: absolute;
+  padding: 0.5rem;
+  top: 1rem;
+  right: 1rem;
+  .cogIcon {
+    font-size: 2rem;
+  }
+  .children {
+    display: flex;
+    flex-direction: column;
+  }
+}
