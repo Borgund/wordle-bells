@@ -163,7 +163,9 @@ export const Wordle = () => {
   };
 
   const handleCopyResults = () => {
-    const text = `My result from the ${day}. door was: \n${emojify()} \nSee if you can beat that at: \nhttps://wordle-bells.netlify.app/`;
+    const text = `My result from the ${day}. door was: \n${emojify()} \nSee if you can beat that at: \n${
+      location.href
+    }`;
     navigator.clipboard.writeText(text);
   };
 
@@ -191,9 +193,7 @@ export const Wordle = () => {
       {!showHelp && (
         <>
           {isDone && isCorrect() && <p>Yey! You are correct! ❤️</p>}
-          {isDone && !isCorrect() && (
-            <p>Oh no... Too bad! 😈</p>
-          )}:
+          {isDone && !isCorrect() && <p>Oh no... Too bad! 😈</p>}
           {isDone && (
             <button className={styles.copyButton} onClick={handleCopyResults}>
               Copy to clipboard
