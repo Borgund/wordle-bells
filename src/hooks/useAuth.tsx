@@ -7,7 +7,7 @@ import { client } from "../pocketbase";
 export function useAuth() {
   const { authStore } = client;
   const [user, setUser] = useState<AuthModel>();
-  const [hasVerifiedEmail, setHasVerifiedEmail] = useState<boolean>(false);
+  const [hasVerifiedEmail, setHasVerifiedEmail] = useState<boolean>();
   const [token, setToken] = useState<string>();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function useAuth() {
     if (isLoggedIn()) {
       const userId = authStore.model?.id;
       const userData = await client.collection("users").getOne(userId);
-      setHasVerifiedEmail(userData.verified);
+      setHasVerifiedEmail(!!userData.verified);
     }
   }, []);
 
@@ -45,12 +45,20 @@ export function useAuth() {
       .catch(console.error);
   }, []);
 
-  const registerEmail = useCallback(async (email: string, password: string) => {
-    return await client
-      .collection("users")
-      .create({ email, password, passwordConfirm: password })
-      .catch(console.error);
-  }, []);
+  const registerEmail = useCallback(
+    async (email: string, password: string, username?: string) => {
+      return await client
+        .collection("users")
+        .create({
+          email,
+          password,
+          passwordConfirm: password,
+          username: username,
+        })
+        .catch(console.error);
+    },
+    []
+  );
 
   const requestVerification = async () => {
     if (isLoggedIn() && !hasVerifiedEmail) {
