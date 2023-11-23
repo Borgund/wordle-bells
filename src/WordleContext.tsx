@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from "react";
 
 const WORDLE_STATE_NAME = "wordleState";
 const ISMUTED = "ISMUTED";
+const ISLIGHT = "ISLIGHT";
 
 type WordleDay = {
   attempts: string[];
@@ -16,6 +17,8 @@ type WordleState = {
   saveWordleDay: (wordleDay: WordleDay, day: number) => void;
   isMuted: boolean;
   toggleMute: () => void;
+  thereWillBeLight: boolean;
+  toggleLight: () => void;
 };
 
 const WordleContext = createContext<WordleState>({} as WordleState);
@@ -41,11 +44,20 @@ const loadMuteState = () => {
   return JSON.parse(window.localStorage.getItem(ISMUTED) ?? "false");
 };
 
+const loadLightState = () => {
+  return JSON.parse(window.localStorage.getItem(ISLIGHT) ?? "false");
+};
+
+const saveLightState = (isLight: boolean) => {
+  window.localStorage.setItem(ISLIGHT, JSON.stringify(isLight));
+};
+
 export const useWordleContext = () => useContext(WordleContext);
 
 export const WordleProvider = ({ children }: WordleProviderProps) => {
   const [gameState, setGameState] = useState<GameState>(getWordleState());
   const [isMuted, setMute] = useState<boolean>(loadMuteState());
+  const [thereWillBeLight, setLight] = useState(loadLightState());
 
   const saveWordleDay = (wordleDay: WordleDay, day: number) => {
     const newWordleState = { ...gameState, [day]: wordleDay };
@@ -58,9 +70,21 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
     saveMuteState(!isMuted);
   };
 
+  const toggleLight = () => {
+    setLight((old: boolean) => !old);
+    saveLightState(!thereWillBeLight);
+  };
+
   return (
     <WordleContext.Provider
-      value={{ gameState, saveWordleDay, isMuted, toggleMute }}
+      value={{
+        gameState,
+        saveWordleDay,
+        isMuted,
+        toggleMute,
+        thereWillBeLight,
+        toggleLight,
+      }}
     >
       {children}
     </WordleContext.Provider>

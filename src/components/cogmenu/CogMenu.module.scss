@@ -1,0 +1,17 @@
+.cog {
+  position: absolute;
+  padding: 0.5rem;
+  top: 1rem;
+  right: 1rem;
+  & > button {
+    background-color: transparent;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  .children {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 0.5rem;
+  }
+}
