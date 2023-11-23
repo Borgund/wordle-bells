@@ -192,8 +192,8 @@ export const Wordle = () => {
         <>
           {isDone && isCorrect() && <p>Yey! You are correct! ❤️</p>}
           {isDone && !isCorrect() && (
-            <p>Oh no... Too bad! 😈 The correct word was {todaysWord}</p>
-          )}
+            <p>Oh no... Too bad! 😈</p>
+          )}:
           {isDone && (
             <button className={styles.copyButton} onClick={handleCopyResults}>
               Copy to clipboard
