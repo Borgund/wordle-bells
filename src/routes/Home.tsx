@@ -27,16 +27,19 @@ export const Home = () => {
     <div className="App">
       {thereWillBeLight && <Flashlights />}
       <div className={styles.textWrapper}>
-        <h1>Happy holidays! 🎄</h1>
+        <h1 className="christmasFont">Happy holidays! 🎄</h1>
         <h2>
           <CustomCountdown
-            date={new Date("2022-12-24")}
+            date={new Date("2023-12-24")}
             text="It's Christmas in just"
           >
             <p>It's Christmas baby! Go do something else 🎅🏻</p>
           </CustomCountdown>
         </h2>
-        <p>!Backend presents this years advents calendar! Enjoy! 🎅🏻</p>
+        <p>
+          !Backend presents this years advents calendar! Same procedure as every
+          year 🤵🏻‍♂️🎅🏻!
+        </p>
       </div>
 
       <DoorContainer>

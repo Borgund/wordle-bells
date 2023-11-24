@@ -1,11 +1,22 @@
 .flashlight {
   position: absolute;
-  transform: translate(-50%, -50%);
 
   background-image: url("./texture_flashlight.png");
   background-size: contain;
 
   mix-blend-mode: screen;
 
-  filter: brightness(1.35);
+  filter: brightness(0.85) sepia(1) contrast(1.5);
+  animation: flicker 1.5s linear infinite alternate;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes flicker {
+  80% {
+    filter: brightness(0.75) sepia(1) contrast(1.2);
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+}
+:global(*), :global(button) {
+  cursor: url("./lantern.png") 32 32, auto !important;
 }
