@@ -14,10 +14,16 @@
   --color-dark-not-really: #999999;
 }
 
+body,
+#root,
+html {
+  height: 100%;
+  width: 100%;
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  width: 100%;
   text-align: center;
   color: white;
 }
@@ -87,7 +93,7 @@ button:hover {
 header {
   position: relative;
   width: 100%;
-  margin: 0;
+  margin-bottom: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
