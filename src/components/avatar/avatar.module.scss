@@ -1,18 +1,22 @@
 .avatar {
   display: flex;
-  flex-direction: row;
   align-items: center;
   margin: 1rem;
   gap: 1rem;
   .user {
     background-color: var(--color-green);
     display: flex;
+    align-items: center;
     border-radius: 1337rem;
-    padding: 0 1rem;
-    gap: 1rem;
+    padding-right: 1rem;
+    gap: 0.5rem;
   }
   img {
+    display: block;
+    border: 2px solid var(--color-yellow);
     height: 3rem;
     width: 3rem;
+    background-color: var(--color-red);
+    border-radius: 1337rem;
   }
 }
