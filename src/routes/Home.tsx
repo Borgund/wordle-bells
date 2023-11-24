@@ -36,7 +36,10 @@ export const Home = () => {
             <p>It's Christmas baby! Go do something else 🎅🏻</p>
           </CustomCountdown>
         </h2>
-        <p>!Backend presents this years advents calendar! Enjoy! 🎅🏻</p>
+        <p>
+          !Backend presents this years advents calendar! Same procedure as every
+          year 🤵🏻‍♂️🎅🏻!
+        </p>
       </div>
 
       <DoorContainer>
