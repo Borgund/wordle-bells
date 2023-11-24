@@ -12,7 +12,7 @@ export const Avatar = () => {
             <img src={avatarBaseUrl + user?.username} />
             <p>{user?.username}</p>
           </div>
-          <button onClick={logout}>Logout</button>
+          <button onClick={logout}>Log out</button>
         </div>
       )}
     </>

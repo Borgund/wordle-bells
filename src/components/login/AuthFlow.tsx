@@ -56,11 +56,12 @@ export const AuthFlow = ({ children }: { children: React.ReactNode }) => {
       <>
         {!hasVerifiedEmail ? (
           <>
-            Please verify your email:
+            <p>Please verify your email:</p>
             <button onClick={requestVerification}>
               Send verification email
             </button>
-            or log out: <button onClick={logout}>Logout</button>
+            <p>or log out: </p>
+            <button onClick={logout}>Log out</button>
           </>
         ) : (
           <>{children}</>

@@ -52,7 +52,6 @@ function App() {
           <RouterProvider router={router} />
           <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
         </WordleProvider>
-        <button onClick={logout}>Sign out</button>
       </AuthFlow>
     </div>
   );
