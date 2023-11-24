@@ -3,6 +3,7 @@ import styles from "./LoginForm.module.scss";
 import { useState } from "react";
 import { RegistrationForm } from "./registrationForm";
 import { LoginForm } from "./LoginForm";
+import { Avatar } from "../avatar/avatar";
 
 export const AuthFlow = ({ children }: { children: React.ReactNode }) => {
   const [emailRegistation, setEmailRegistation] = useState(false);
@@ -55,14 +56,14 @@ export const AuthFlow = ({ children }: { children: React.ReactNode }) => {
     return (
       <>
         {!hasVerifiedEmail ? (
-          <>
+          <div className={styles.verify}>
             <p>Please verify your email:</p>
             <button onClick={requestVerification}>
               Send verification email
             </button>
             <p>or log out: </p>
-            <button onClick={logout}>Log out</button>
-          </>
+            <Avatar />
+          </div>
         ) : (
           <>{children}</>
         )}
