@@ -15,6 +15,7 @@ import { CogMenu } from "./components//cogmenu/CogMenu";
 import { LoginForm } from "./components/login/LoginForm";
 import { useAuth } from "./hooks/useAuth";
 import LightButton from "./components/lightButton/LightButton";
+import { Snowman } from "./components/snowman/Snowman";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +51,7 @@ function App() {
         </WordleProvider>
         <button onClick={logout}>Sign out</button>
       </LoginForm>
+      <Snowman/>
     </div>
   );
 }
