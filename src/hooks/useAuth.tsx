@@ -23,7 +23,7 @@ export function useAuth() {
     if (isLoggedIn()) {
       const userId = authStore.model?.id;
       const userData = await client.collection("users").getOne(userId);
-      setHasVerifiedEmail(!!userData.verified);
+      setHasVerifiedEmail(userData.verified);
     }
   }, []);
 
@@ -55,6 +55,7 @@ export function useAuth() {
           passwordConfirm: password,
           username: username,
         })
+        .then(() => loginEmail(email, password))
         .catch(console.error);
     },
     []
