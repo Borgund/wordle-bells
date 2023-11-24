@@ -157,9 +157,10 @@ export const Wordle = () => {
   };
 
   const emojify = () => {
-    const string =
-      "" + attempts.map((attempt) => "" + emojiAttempt(attempt) + "\n");
-    return string.replaceAll(",", "");
+    return attempts
+      .filter((attempt) => attempt !== '     ')
+      .map((attempt) => emojiAttempt(attempt))
+      .join('\n')
   };
 
   const handleCopyResults = () => {
