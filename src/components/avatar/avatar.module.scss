@@ -1,0 +1,18 @@
+.avatar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 1rem;
+  gap: 1rem;
+  .user {
+    background-color: var(--color-green);
+    display: flex;
+    border-radius: 1337rem;
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  img {
+    height: 3rem;
+    width: 3rem;
+  }
+}

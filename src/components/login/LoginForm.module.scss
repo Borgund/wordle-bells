@@ -24,7 +24,12 @@
     width: 100%;
   }
 }
-
+.loginOptions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
 .avatar {
   width: 128px;
 }

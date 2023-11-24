@@ -7,17 +7,21 @@ import { client } from "../pocketbase";
 export function useAuth() {
   const { authStore } = client;
   const [user, setUser] = useState<AuthModel>();
-  const [hasVerifiedEmail, setHasVerifiedEmail] = useState<boolean>();
+  const [hasVerifiedEmail, setHasVerifiedEmail] = useState<boolean>(true);
   const [token, setToken] = useState<string>();
 
   useEffect(() => {
     checkVerifiedEmail();
 
+    if (isLoggedIn() && !user) {
+      setUser(authStore.model);
+    }
     return authStore.onChange((token: string, model: AuthModel) => {
       setToken(token);
       setUser(model);
+      setHasVerifiedEmail(model?.verified);
     });
-  }, []);
+  }, [user]);
 
   const checkVerifiedEmail = useCallback(async () => {
     if (isLoggedIn()) {
