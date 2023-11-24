@@ -45,7 +45,7 @@
 
 body {
   background-color: var(--color-x-mas-blue-sky);
-  background-image: url("/src/assets/landscape.svg");
+  background-image: url("/src/assets/landscapeWithScoreTree.svg");
   background-position: left -20rem bottom -10rem;
   background-repeat: no-repeat;
 }
