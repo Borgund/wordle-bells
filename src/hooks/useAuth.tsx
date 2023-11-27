@@ -35,7 +35,7 @@ export function useAuth() {
     let w = window.open();
     return client.collection("users").authWithOAuth2({
       provider: provider ?? "github",
-      useCallback: (url: string) => {
+      urlCallback: (url: string) => {
         w!.location.href = url;
       },
     });
