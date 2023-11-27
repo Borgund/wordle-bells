@@ -31,13 +31,9 @@ export function useAuth() {
     }
   }, []);
 
-  const loginWithProvider = useCallback(async (provider: string) => {
-    const authMethods = await client.collection("users").listAuthMethods();
-    const validProvider =
-      authMethods.authProviders.filter(({ name }) => name === provider).length >
-      0;
+  const loginWithProvider = useCallback((provider: string) => {
     let w = window.open();
-    return await client.collection("users").authWithOAuth2({
+    return client.collection("users").authWithOAuth2({
       provider: provider ?? "github",
       useCallback: (url: string) => {
         w!.location.href = url;
