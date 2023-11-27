@@ -15,3 +15,7 @@
   mix-blend-mode: multiply;
   background-color: rgb(0, 0, 0);
 }
+
+:global(.flashlightCursor) :global(*) {
+  cursor: url("./lantern.png") 32 32, auto;
+}

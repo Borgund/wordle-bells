@@ -13,7 +13,6 @@ import { WordleProvider } from "./WordleContext";
 import MuteButton from "./components/muteButton/MuteButton";
 import { CogMenu } from "./components//cogmenu/CogMenu";
 import { AuthFlow } from "./components/login/AuthFlow";
-import { useAuth } from "./hooks/useAuth";
 import LightButton from "./components/lightButton/LightButton";
 import { Avatar } from "./components/avatar/avatar";
 
@@ -36,8 +35,6 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const { logout } = useAuth();
-
   return (
     <div className="App">
       <AuthFlow>

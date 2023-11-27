@@ -1,5 +1,6 @@
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useContext, useEffect } from "react";
 import styles from "./FlashlightScene.module.scss";
+import { useWordleContext } from "../../WordleContext";
 
 const FlashlightScene = ({
   children,
@@ -15,11 +16,15 @@ const FlashlightScene = ({
 
     addEventListener("mousemove", handleMouseMove);
 
+    //Add cursor lamp class to body
+    document.body.classList.add("flashlightCursor");
+
     return () => {
+      //Remove cursor lamp class to body
+      document.body.classList.remove("flashlightCursor");
       removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
-
   return (
     <ul aria-hidden className={styles.flashlightScene}>
       {children}
