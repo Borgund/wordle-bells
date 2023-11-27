@@ -36,9 +36,12 @@ export function useAuth() {
     const validProvider =
       authMethods.authProviders.filter(({ name }) => name === provider).length >
       0;
-    console.log(authMethods, validProvider);
+    let w = window.open();
     return await client.collection("users").authWithOAuth2({
       provider: provider ?? "github",
+      useCallback: (url: string) => {
+        w!.location.href = url;
+      },
     });
   }, []);
 
