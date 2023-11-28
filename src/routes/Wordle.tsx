@@ -10,6 +10,7 @@ import { allWords } from "../words";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
 import { getLetterStates } from "../components/word/Word";
+import useCollection from "../hooks/useCollection";
 
 const keyboardLayout = {
   default: [
@@ -46,10 +47,18 @@ export const Wordle = () => {
 
   const WORDLIST = import.meta.env.VITE_WORDLIST || "";
   const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
-  const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
+  //const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
+
+  const { data } = useCollection<{
+    id: string;
+    slug: string;
+    body: { word: string };
+  }>({ collection: "words", filter: `slug='${day}'` });
+
+  const todaysWord = data?.body?.word.toUpperCase() ?? "WORDS";
   const isCorrect = () =>
     activeGuess === todaysWord || attempts.includes(todaysWord);
 
@@ -158,9 +167,9 @@ export const Wordle = () => {
 
   const emojify = () => {
     return attempts
-      .filter((attempt) => attempt !== '     ')
+      .filter((attempt) => attempt !== "     ")
       .map((attempt) => emojiAttempt(attempt))
-      .join('\n')
+      .join("\n");
   };
 
   const handleCopyResults = () => {
