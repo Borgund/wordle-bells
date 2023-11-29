@@ -9,13 +9,13 @@ import {
 import { Home } from "./routes/Home";
 import { Wordle } from "./routes/Wordle";
 import { canOpen } from "./utils";
-import { WordleProvider } from "./WordleContext";
+import { useWordleContext, WordleProvider } from "./WordleContext";
 import MuteButton from "./components/muteButton/MuteButton";
 import { CogMenu } from "./components//cogmenu/CogMenu";
 import { AuthFlow } from "./components/login/AuthFlow";
 import LightButton from "./components/lightButton/LightButton";
 import { Avatar } from "./components/avatar/avatar";
-import NukeButton from "./components/nukeButton/nukeButton";
+import NukeButton, { SaveTest } from "./components/nukeButton/nukeButton";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +46,7 @@ function App() {
               <MuteButton />
               <LightButton />
               {process.env.NODE_ENV !== "production" && <NukeButton />}
+              {process.env.NODE_ENV !== "production" && <SaveTest />}
             </CogMenu>
           </header>
           <RouterProvider router={router} />
@@ -55,5 +56,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

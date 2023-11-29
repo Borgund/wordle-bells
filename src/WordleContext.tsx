@@ -1,20 +1,34 @@
-import { createContext, useContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { client } from "./pocketbase";
 
 const WORDLE_STATE_NAME = "wordleState";
 const ISMUTED = "ISMUTED";
 const ISLIGHT = "ISLIGHT";
 
-type WordleDay = {
-  attempts: string[];
-  isCompleted: boolean;
-  isSuccessful: boolean;
+// type WordleDay = {
+//   attempts: string[];
+//   isCompleted: boolean;
+//   isSuccessful: boolean;
+// };
+
+export type Attempt = {
+  slug: string;
+  attempt: string;
 };
 
-type GameState = Record<number, WordleDay | undefined>;
-
 type WordleState = {
-  gameState: GameState;
-  saveWordleDay: (wordleDay: WordleDay, day: number) => void;
+  //getWordleState: (day: number) => Promise<ListResult<Attempt[]>>;
+  //getGameState: () => Promise<Attempt[]>;
+  wordleState?: Attempt[];
+  setActiveDay: (value: number) => void;
+  saveWordleAttempt: (attempt: string, day: number, last?: boolean) => void;
   isMuted: boolean;
   toggleMute: () => void;
   thereWillBeLight: boolean;
@@ -28,19 +42,28 @@ type WordleProviderProps = {
   children: React.ReactNode;
 };
 
-const getWordleState = () => {
-  const wordleState = window.localStorage.getItem(WORDLE_STATE_NAME) ?? "{}";
-  const parsedWordleState = JSON.parse(wordleState) as GameState;
-  return parsedWordleState;
+const getWordleState = async (day: number) => {
+  const wordleState = await client
+    .collection("attempts")
+    .getList<Attempt>(1, 5, { filter: `slug='${day}'`, sort: "-created" });
+  console.log(wordleState, day);
+  return wordleState;
+};
+
+const getGameState = async () => {
+  const gameState = await client
+    .collection("attempts")
+    .getFullList<Attempt>({ sort: "-created" });
+  return await gameState;
 };
 
 const nukeWordleState = () => {
   window.localStorage.setItem(WORDLE_STATE_NAME, '""');
 };
 
-const saveWordleState = (wordleState: GameState) => {
-  window.localStorage.setItem(WORDLE_STATE_NAME, JSON.stringify(wordleState));
-};
+// const saveWordleState = (wordleState: GameState) => {
+//   window.localStorage.setItem(WORDLE_STATE_NAME, JSON.stringify(wordleState));
+// };
 const saveMuteState = (isMuted: boolean) => {
   window.localStorage.setItem(ISMUTED, JSON.stringify(isMuted));
 };
@@ -60,14 +83,24 @@ const saveLightState = (isLight: boolean) => {
 export const useWordleContext = () => useContext(WordleContext);
 
 export const WordleProvider = ({ children }: WordleProviderProps) => {
-  const [gameState, setGameState] = useState<GameState>(getWordleState());
+  const [wordleState, setWordleState] = useState<Attempt[]>();
+  const [activeDay, setActiveDay] = useState<number>(0);
   const [isMuted, setMute] = useState<boolean>(loadMuteState());
   const [thereWillBeLight, setLight] = useState(loadLightState());
 
-  const saveWordleDay = (wordleDay: WordleDay, day: number) => {
-    const newWordleState = { ...gameState, [day]: wordleDay };
-    setGameState(newWordleState);
-    saveWordleState(newWordleState);
+  useEffect(() => {
+    getWordleState(activeDay).then((res) => setWordleState(res.items));
+  }, [activeDay]);
+
+  const saveWordleAttempt = (attempt: string, day: number, last?: boolean) => {
+    const data = {
+      owner: client.authStore.model?.id,
+      slug: "" + day,
+      attempt: attempt,
+      last: !!last,
+    };
+
+    return client.collection("attempts").create(data);
   };
 
   const toggleMute = () => {
@@ -83,8 +116,9 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
   return (
     <WordleContext.Provider
       value={{
-        gameState,
-        saveWordleDay,
+        wordleState,
+        setActiveDay,
+        saveWordleAttempt,
         isMuted,
         toggleMute,
         thereWillBeLight,
