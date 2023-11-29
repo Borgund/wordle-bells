@@ -15,6 +15,7 @@ import { CogMenu } from "./components//cogmenu/CogMenu";
 import { AuthFlow } from "./components/login/AuthFlow";
 import LightButton from "./components/lightButton/LightButton";
 import { Avatar } from "./components/avatar/avatar";
+import NukeButton from "./components/nukeButton/nukeButton";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ function App() {
             <CogMenu>
               <MuteButton />
               <LightButton />
+              {process.env.NODE_ENV !== "production" && <NukeButton />}
             </CogMenu>
           </header>
           <RouterProvider router={router} />

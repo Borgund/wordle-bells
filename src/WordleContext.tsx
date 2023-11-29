@@ -19,6 +19,7 @@ type WordleState = {
   toggleMute: () => void;
   thereWillBeLight: boolean;
   toggleLight: () => void;
+  nukeWordleState: () => void;
 };
 
 const WordleContext = createContext<WordleState>({} as WordleState);
@@ -31,6 +32,10 @@ const getWordleState = () => {
   const wordleState = window.localStorage.getItem(WORDLE_STATE_NAME) ?? "{}";
   const parsedWordleState = JSON.parse(wordleState) as GameState;
   return parsedWordleState;
+};
+
+const nukeWordleState = () => {
+  window.localStorage.setItem(WORDLE_STATE_NAME, '""');
 };
 
 const saveWordleState = (wordleState: GameState) => {
@@ -84,6 +89,7 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
         toggleMute,
         thereWillBeLight,
         toggleLight,
+        nukeWordleState,
       }}
     >
       {children}
