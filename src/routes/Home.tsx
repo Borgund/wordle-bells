@@ -4,6 +4,7 @@ import CustomCountdown from "../components/countdown";
 import Flash from "../components/flashlightScene";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Home.module.scss";
+import { FlyingSanta } from "../components/flying-santa/FlyingSanta";
 
 const Flashlights = () => {
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -27,6 +28,7 @@ export const Home = () => {
     <div className="App">
       {thereWillBeLight && <Flashlights />}
       <div className={styles.textWrapper}>
+        <FlyingSanta />
         <h1 className="christmasFont">Happy holidays! 🎄</h1>
         <h2>
           <CustomCountdown
@@ -41,7 +43,6 @@ export const Home = () => {
           year 🤵🏻‍♂️🎅🏻!
         </p>
       </div>
-
       <DoorContainer>
         {calendarDays.map((day) => {
           const dayState = gameState[day];
