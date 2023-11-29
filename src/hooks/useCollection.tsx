@@ -22,6 +22,7 @@ function useCollection<T>({
         .then((res) => {
           setData(res as T);
           setIsLoading(false);
+          setError(false);
         })
         .catch((e) => setError(e))
         .finally(() => setIsLoading(false));
@@ -33,6 +34,7 @@ function useCollection<T>({
         .then((res) => {
           setData(res as T);
           setIsLoading(false);
+          setError(false);
         })
         .catch((e) => setError(e))
         .finally(() => setIsLoading(false));

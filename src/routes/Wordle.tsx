@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import { Word, WordleHelp } from "../components";
@@ -52,13 +52,14 @@ export const Wordle = () => {
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
 
-  const { data } = useCollection<{
+  const { data, error } = useCollection<{
     id: string;
     slug: string;
     body: { word: string };
   }>({ collection: "words", filter: `slug='${day}'` });
 
-  const todaysWord = data?.body?.word.toUpperCase() ?? "WORDS";
+  const todaysWord = data?.body?.word.toUpperCase() ?? "";
+
   const isCorrect = () =>
     activeGuess === todaysWord || attempts.includes(todaysWord);
 
@@ -183,6 +184,26 @@ export const Wordle = () => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   });
+
+  if (error || !todaysWord || todaysWord.length !== 5) {
+    return (
+      <>
+        <Link
+          to="/"
+          className={styles.backButton}
+          onClick={() => setShowHelp((prevState) => !prevState)}
+        >
+          &lt; Back
+        </Link>
+        <p>
+          There was an error with todays word! Please let the closest elf know.
+          Or you could try{" "}
+          <span style={{ textDecoration: "line-through" }}>tweeting</span>{" "}
+          Xing(?) about it... ¯\_(ツ)_/¯
+        </p>
+      </>
+    );
+  }
 
   return (
     <div>
