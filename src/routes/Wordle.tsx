@@ -28,15 +28,9 @@ export const Wordle = () => {
   const volume = { volume: isMuted ? 0 : 1 };
   const [showHelp, setShowHelp] = useState(false);
 
+  const EMPTY_ATTEMTSTRING = " ".repeat(5);
   const [attempts, setAttempts] = useState(
-    activeGameState?.attempts ?? [
-      "     ",
-      "     ",
-      "     ",
-      "     ",
-      "     ",
-      "     ",
-    ]
+    activeGameState?.attempts ?? Array(5).fill(EMPTY_ATTEMTSTRING)
   );
   const [activeGuess, setActiveGuess] = useState("");
   const initialIndex = attempts.filter((x) => x.trim().length > 0).length;
