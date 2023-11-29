@@ -10,7 +10,6 @@ export const AuthFlow = ({ children }: { children: React.ReactNode }) => {
   const [emailLogin, setEmailLogin] = useState(false);
   const {
     isLoggedIn,
-    logout,
     loginWithProvider,
     hasVerifiedEmail,
     requestVerification,

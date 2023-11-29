@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Keyboard from "react-simple-keyboard";
 import { Word, WordleHelp } from "../components";
@@ -10,6 +10,7 @@ import { allWords } from "../words";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
 import { getLetterStates } from "../components/word/Word";
+import useCollection from "../hooks/useCollection";
 
 const keyboardLayout = {
   default: [
@@ -46,10 +47,19 @@ export const Wordle = () => {
 
   const WORDLIST = import.meta.env.VITE_WORDLIST || "";
   const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
-  const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
+  //const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
+
+  const { data, error } = useCollection<{
+    id: string;
+    slug: string;
+    body: { word: string };
+  }>({ collection: "words", filter: `slug='${day}'` });
+
+  const todaysWord = data?.body?.word.toUpperCase() ?? "";
+
   const isCorrect = () =>
     activeGuess === todaysWord || attempts.includes(todaysWord);
 
@@ -158,9 +168,9 @@ export const Wordle = () => {
 
   const emojify = () => {
     return attempts
-      .filter((attempt) => attempt !== '     ')
+      .filter((attempt) => attempt !== "     ")
       .map((attempt) => emojiAttempt(attempt))
-      .join('\n')
+      .join("\n");
   };
 
   const handleCopyResults = () => {
@@ -174,6 +184,26 @@ export const Wordle = () => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   });
+
+  if (error || !todaysWord || todaysWord.length !== 5) {
+    return (
+      <>
+        <Link
+          to="/"
+          className={styles.backButton}
+          onClick={() => setShowHelp((prevState) => !prevState)}
+        >
+          &lt; Back
+        </Link>
+        <p>
+          There was an error with todays word! Please let the closest elf know.
+          Or you could try{" "}
+          <span style={{ textDecoration: "line-through" }}>tweeting</span>{" "}
+          Xing(?) about it... ¯\_(ツ)_/¯
+        </p>
+      </>
+    );
+  }
 
   return (
     <div>
