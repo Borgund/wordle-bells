@@ -12,20 +12,13 @@ const WORDLE_STATE_NAME = "wordleState";
 const ISMUTED = "ISMUTED";
 const ISLIGHT = "ISLIGHT";
 
-// type WordleDay = {
-//   attempts: string[];
-//   isCompleted: boolean;
-//   isSuccessful: boolean;
-// };
-
 export type Attempt = {
   slug: string;
   attempt: string;
+  last?: boolean;
 };
 
 type WordleState = {
-  //getWordleState: (day: number) => Promise<ListResult<Attempt[]>>;
-  //getGameState: () => Promise<Attempt[]>;
   wordleState?: Attempt[];
   setActiveDay: (value: number) => void;
   saveWordleAttempt: (attempt: string, day: number, last?: boolean) => void;
@@ -45,7 +38,7 @@ type WordleProviderProps = {
 const getWordleState = async (day: number) => {
   const wordleState = await client
     .collection("attempts")
-    .getList<Attempt>(1, 5, { filter: `slug='${day}'`, sort: "-created" });
+    .getList<Attempt>(1, 6, { filter: `slug='${day}'`, sort: "-created" });
   return wordleState;
 };
 
@@ -60,9 +53,6 @@ const nukeWordleState = () => {
   window.localStorage.setItem(WORDLE_STATE_NAME, '""');
 };
 
-// const saveWordleState = (wordleState: GameState) => {
-//   window.localStorage.setItem(WORDLE_STATE_NAME, JSON.stringify(wordleState));
-// };
 const saveMuteState = (isMuted: boolean) => {
   window.localStorage.setItem(ISMUTED, JSON.stringify(isMuted));
 };

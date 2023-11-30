@@ -33,12 +33,13 @@ export const Wordle = () => {
   const EMPTY_ATTEMTSTRING = " ".repeat(5);
   const [attempts, setAttempts] = useState<Attempt[]>();
   const [activeGuess, setActiveGuess] = useState("");
-  const [isDone, setIsDone] = useState(
-    attempts?.length === maxAttempts || isCorrect()
-  );
 
   useEffect(() => {
     setAttempts(wordleState);
+    const stateCheck = wordleState?.filter(({ last }: Attempt) => !!last);
+    if (wordleState?.length === maxAttempts || (stateCheck?.length ?? 0) > 0) {
+      setIsDone(true);
+    }
   }, [wordleState]);
 
   const [play] = useSound(achievementbell, volume);
@@ -54,14 +55,18 @@ export const Wordle = () => {
   const todaysWord = data?.body?.word.toUpperCase() ?? "";
   const hint = data?.body?.hint ?? "";
 
+  const compareAttempt = (attempt: string) => {
+    return attempt === todaysWord;
+  };
+
   const isCorrect = () => {
-    const guessIsCorrect = activeGuess === todaysWord;
     const attemptFilter =
       attempts && attempts.filter(({ attempt }) => attempt === todaysWord);
     const previousAttemptIsCorrect = attemptFilter && attemptFilter.length > 0;
 
-    return guessIsCorrect || previousAttemptIsCorrect;
+    return previousAttemptIsCorrect;
   };
+  const [isDone, setIsDone] = useState(attempts?.length === maxAttempts);
 
   const validateAttempt = () => {
     const testLength = activeGuess.length === 5;
@@ -77,7 +82,7 @@ export const Wordle = () => {
     if (!valid) {
       return;
     }
-    const last = attempts?.length === maxAttempts || isCorrect();
+    const last = (attempts?.length ?? 0) + 1 === maxAttempts || isCorrect();
     saveWordleAttempt(activeGuess, parsedDay, last);
 
     if (isCorrect()) {
