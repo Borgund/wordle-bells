@@ -10,6 +10,7 @@ import { Attempt, useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
 import { getLetterStates } from "../components/word/Word";
 import useCollection from "../hooks/useCollection";
+import { EmptyAttempts } from "../components/word/emptyAttempt";
 
 const keyboardLayout = {
   default: [
@@ -201,17 +202,6 @@ export const Wordle = () => {
     );
   }
 
-  const EmptyAttempts = () => {
-    const arr = Array(maxAttempts - (attempts?.length ?? 0)).fill("");
-    return (
-      <div>
-        {arr.map((i) => (
-          <Word word={EMPTY_ATTEMTSTRING} />
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div>
       <Link
@@ -248,7 +238,10 @@ export const Wordle = () => {
               submitted={attempt.length > 0}
             />
           ))}
-          <EmptyAttempts />
+          <EmptyAttempts
+            maxAttempts={maxAttempts}
+            attempts={attempts?.length ?? 0}
+          />
 
           <Keyboard
             theme={"hg-theme-default dark"}
