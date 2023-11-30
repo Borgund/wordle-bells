@@ -20,13 +20,13 @@ export type Attempt = {
 
 type WordleState = {
   wordleState?: Attempt[];
+  gameState?: Attempt[];
   setActiveDay: (value: number) => void;
   saveWordleAttempt: (attempt: string, day: number, last?: boolean) => void;
   isMuted: boolean;
   toggleMute: () => void;
   thereWillBeLight: boolean;
   toggleLight: () => void;
-  nukeWordleState: () => void;
 };
 
 const WordleContext = createContext<WordleState>({} as WordleState);
@@ -49,10 +49,6 @@ const getGameState = async () => {
   return await gameState;
 };
 
-const nukeWordleState = () => {
-  window.localStorage.setItem(WORDLE_STATE_NAME, '""');
-};
-
 const saveMuteState = (isMuted: boolean) => {
   window.localStorage.setItem(ISMUTED, JSON.stringify(isMuted));
 };
@@ -72,6 +68,7 @@ const saveLightState = (isLight: boolean) => {
 export const useWordleContext = () => useContext(WordleContext);
 
 export const WordleProvider = ({ children }: WordleProviderProps) => {
+  const [gameState, setGameState] = useState();
   const [wordleState, setWordleState] = useState<Attempt[]>();
   const [activeDay, setActiveDay] = useState<number>(0);
   const [isMuted, setMute] = useState<boolean>(loadMuteState());
@@ -91,7 +88,14 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
     const response = client
       .collection("attempts")
       .create(data)
-      .then((res) => setWordleState((old) => [res, ...old]));
+      .then((res) =>
+        setWordleState((old: any) => {
+          if (old?.length) {
+            return [res, ...old];
+          }
+          return [res];
+        })
+      );
     return response;
   };
 
@@ -110,12 +114,12 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
       value={{
         wordleState,
         setActiveDay,
+        gameState,
         saveWordleAttempt,
         isMuted,
         toggleMute,
         thereWillBeLight,
         toggleLight,
-        nukeWordleState,
       }}
     >
       {children}

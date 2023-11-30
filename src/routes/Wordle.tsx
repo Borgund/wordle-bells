@@ -203,7 +203,13 @@ export const Wordle = () => {
 
   const EmptyAttempts = () => {
     const arr = Array(maxAttempts - (attempts?.length ?? 0)).fill("");
-    return arr.map((i) => <Word word={EMPTY_ATTEMTSTRING} />);
+    return (
+      <>
+        {arr.map((i) => (
+          <Word word={EMPTY_ATTEMTSTRING} />
+        ))}
+      </>
+    );
   };
 
   return (

@@ -50,8 +50,8 @@ export const Home = () => {
             <Door
               key={`door_${day}`}
               number={day}
-              completed={dayState?.isCompleted ?? false}
-              successful={dayState?.isSuccessful ?? false}
+              completed={false}
+              successful={false}
               alreadyOpened={!!dayState ?? false}
             />
           );
