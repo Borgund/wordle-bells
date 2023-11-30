@@ -82,7 +82,10 @@ export const Wordle = () => {
     if (!valid) {
       return;
     }
-    const last = (attempts?.length ?? 0) + 1 === maxAttempts || isCorrect();
+    const last =
+      (attempts?.length ?? 0) + 1 === maxAttempts ||
+      isCorrect() ||
+      compareAttempt(activeGuess);
     saveWordleAttempt(activeGuess, parsedDay, last);
 
     if (isCorrect()) {
