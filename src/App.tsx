@@ -16,6 +16,7 @@ import { AuthFlow } from "./components/login/AuthFlow";
 import LightButton from "./components/lightButton/LightButton";
 import { Avatar } from "./components/avatar/avatar";
 import NukeButton from "./components/nukeButton/nukeButton";
+import { Score } from "./routes/Score";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
       return null;
     },
     element: <Wordle />,
+  },
+  {
+    path: "/score",
+    element: <Score />,
   },
 ]);
 

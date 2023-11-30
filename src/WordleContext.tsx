@@ -1,32 +1,16 @@
 import { createContext, useContext, useState } from "react";
+import {
+  WordleDay,
+  GameState,
+  WordleState,
+  WordleProviderProps,
+} from "./wordleTypes";
 
 const WORDLE_STATE_NAME = "wordleState";
 const ISMUTED = "ISMUTED";
 const ISLIGHT = "ISLIGHT";
 
-type WordleDay = {
-  attempts: string[];
-  isCompleted: boolean;
-  isSuccessful: boolean;
-};
-
-type GameState = Record<number, WordleDay | undefined>;
-
-type WordleState = {
-  gameState: GameState;
-  saveWordleDay: (wordleDay: WordleDay, day: number) => void;
-  isMuted: boolean;
-  toggleMute: () => void;
-  thereWillBeLight: boolean;
-  toggleLight: () => void;
-  nukeWordleState: () => void;
-};
-
 const WordleContext = createContext<WordleState>({} as WordleState);
-
-type WordleProviderProps = {
-  children: React.ReactNode;
-};
 
 const getWordleState = () => {
   const wordleState = window.localStorage.getItem(WORDLE_STATE_NAME) ?? "{}";
