@@ -45,7 +45,7 @@ export const Home = () => {
       </div>
       <DoorContainer>
         {calendarDays.map((day) => {
-          const dayState = gameState[day];
+          const dayState = gameState?.[day];
           return (
             <Door
               key={`door_${day}`}

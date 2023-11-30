@@ -6,8 +6,7 @@ import useSound from "use-sound";
 import achievementbell from "../assets/sounds/achievementbell.wav";
 import keySound from "../assets/sounds/typewriterclick.wav";
 import enterSound from "../assets/sounds/typewriterreturnbell.wav";
-import { allWords } from "../words";
-import { useWordleContext } from "../WordleContext";
+import { Attempt, useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
 import { getLetterStates } from "../components/word/Word";
 import useCollection from "../hooks/useCollection";
@@ -21,27 +20,28 @@ const keyboardLayout = {
 };
 
 export const Wordle = () => {
-  const { gameState, saveWordleDay, isMuted } = useWordleContext();
+  const { saveWordleAttempt, setActiveDay, wordleState, isMuted } =
+    useWordleContext();
   const { day } = useParams();
   const parsedDay = Number(day);
-  const activeGameState = gameState[parsedDay];
+  setActiveDay(parsedDay);
+  const maxAttempts = 6;
+
   const volume = { volume: isMuted ? 0 : 1 };
   const [showHelp, setShowHelp] = useState(false);
 
   const EMPTY_ATTEMTSTRING = " ".repeat(5);
-  const [attempts, setAttempts] = useState(
-    activeGameState?.attempts ?? Array(5).fill(EMPTY_ATTEMTSTRING)
-  );
+  const [attempts, setAttempts] = useState<Attempt[]>();
   const [activeGuess, setActiveGuess] = useState("");
-  const initialIndex = attempts.filter((x) => x.trim().length > 0).length;
-  const [activeIndex, setActiveIndex] = useState(initialIndex ?? 0);
-  const [isDone, setIsDone] = useState(activeGameState?.isCompleted ?? false);
 
-  const maxAttempts = 6;
+  useEffect(() => {
+    setAttempts(wordleState);
+    const stateCheck = wordleState?.filter(({ last }: Attempt) => !!last);
+    if (wordleState?.length === maxAttempts || (stateCheck?.length ?? 0) > 0) {
+      setIsDone(true);
+    }
+  }, [wordleState]);
 
-  const WORDLIST = import.meta.env.VITE_WORDLIST || "";
-  const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
-  //const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
@@ -49,21 +49,31 @@ export const Wordle = () => {
   const { data, error } = useCollection<{
     id: string;
     slug: string;
-    body: { word: string };
+    body: { word: string; hint: string };
   }>({ collection: "words", filter: `slug='${day}'` });
 
   const todaysWord = data?.body?.word.toUpperCase() ?? "";
+  const hint = data?.body?.hint ?? "";
 
-  const isCorrect = () =>
-    activeGuess === todaysWord || attempts.includes(todaysWord);
+  const compareAttempt = (attempt: string) => {
+    return attempt === todaysWord;
+  };
+
+  const isCorrect = () => {
+    const attemptFilter =
+      attempts && attempts.filter(({ attempt }) => attempt === todaysWord);
+    const previousAttemptIsCorrect = attemptFilter && attemptFilter.length > 0;
+
+    return previousAttemptIsCorrect;
+  };
+  const [isDone, setIsDone] = useState(attempts?.length === maxAttempts);
 
   const validateAttempt = () => {
-    const testAttempts = activeIndex < maxAttempts;
     const testLength = activeGuess.length === 5;
-    const testWord =
-      allWords.includes(activeGuess.toLowerCase()) ||
-      WORDLIST_PARSED.includes(activeGuess);
-    return testAttempts && testLength && testWord;
+    const repeatedWord =
+      attempts!.filter(({ attempt }) => attempt === activeGuess).length > 0 ??
+      false;
+    return testLength && !repeatedWord;
   };
 
   const saveAttempt = () => {
@@ -72,26 +82,15 @@ export const Wordle = () => {
     if (!valid) {
       return;
     }
-    const nextActiveIndex = activeIndex + 1;
-    const newAttempts = [...attempts];
-    newAttempts[activeIndex] = activeGuess;
-    setAttempts(newAttempts);
-    saveWordleDay(
-      {
-        attempts: newAttempts,
-        isCompleted: isCorrect() || nextActiveIndex === maxAttempts,
-        isSuccessful: isCorrect(),
-      },
-      parsedDay
-    );
+    const last = (attempts?.length ?? 0) + 1 === maxAttempts || isCorrect();
+    saveWordleAttempt(activeGuess, parsedDay, last);
 
     if (isCorrect()) {
       setIsDone(true);
       play();
     } else {
-      setActiveIndex(nextActiveIndex);
       playEnter();
-      if (nextActiveIndex === maxAttempts) {
+      if (attempts && attempts?.length === maxAttempts) {
         setIsDone(true);
       }
     }
@@ -162,8 +161,8 @@ export const Wordle = () => {
 
   const emojify = () => {
     return attempts
-      .filter((attempt) => attempt !== "     ")
-      .map((attempt) => emojiAttempt(attempt))
+      ?.filter(({ attempt }) => attempt !== "     ")
+      .map(({ attempt }) => emojiAttempt(attempt))
       .join("\n");
   };
 
@@ -199,6 +198,11 @@ export const Wordle = () => {
     );
   }
 
+  const EmptyAttempts = () => {
+    const arr = Array(maxAttempts - (attempts?.length ?? 0)).fill("");
+    return arr.map((i) => <Word word={EMPTY_ATTEMTSTRING} />);
+  };
+
   return (
     <div>
       <Link
@@ -226,14 +230,17 @@ export const Wordle = () => {
               Copy to clipboard
             </button>
           )}
-          {!isDone && <Word word={activeGuess} />}
-          {attempts.map((attempt) => (
+          {!isDone && <p>Hint: {hint}</p>}
+          {!isDone && !isCorrect() && <Word word={activeGuess} />}
+          {attempts?.map(({ attempt }) => (
             <Word
               word={attempt}
               correctWord={todaysWord}
-              submitted={attempt.trim().length > 0}
+              submitted={attempt.length > 0}
             />
           ))}
+          <EmptyAttempts />
+
           <Keyboard
             theme={"hg-theme-default dark"}
             layout={keyboardLayout}

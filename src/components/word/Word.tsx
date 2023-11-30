@@ -3,7 +3,12 @@ import LetterCard from "../letterCard";
 import { LetterState } from "../letterCard/LetterCard";
 import styles from "./Word.module.scss";
 
-type WordProps = { word: string; correctWord?: string; submitted?: boolean };
+type WordProps = {
+  word?: string;
+  correctWord?: string;
+  submitted?: boolean;
+  empty?: boolean;
+};
 
 export const getLetterStates = (guess: string, correctWord = "") => {
   const guessLetters = guess.split("");
@@ -30,18 +35,22 @@ export const getLetterStates = (guess: string, correctWord = "") => {
   return letterStates;
 };
 
-const Word = ({ word, correctWord, submitted }: WordProps) => {
-  const letterStates = getLetterStates(word, correctWord);
+const Word = ({ word, correctWord, submitted, empty }: WordProps) => {
+  const letterStates = getLetterStates(word ?? "", correctWord);
   return (
     <div className={styles.wordWrapper}>
       {word?.split("").map((letter, index) => (
         <LetterCard
           key={letter + index}
-          letter={letter}
+          letter={!empty ? letter : " "}
           state={submitted ? letterStates[index] : "activeGuess"}
         />
       ))}
-      {!word && <LetterCard />}
+      {!word && (
+        <>
+          <LetterCard />
+        </>
+      )}
     </div>
   );
 };
