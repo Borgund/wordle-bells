@@ -22,11 +22,16 @@ html {
 }
 
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
   color: white;
   position: relative;
+}
+
+.App {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
 .logo {
