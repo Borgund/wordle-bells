@@ -15,6 +15,7 @@ import { CogMenu } from "./components//cogmenu/CogMenu";
 import { AuthFlow } from "./components/login/AuthFlow";
 import LightButton from "./components/lightButton/LightButton";
 import { Avatar } from "./components/avatar/avatar";
+import { NorthStar } from "./components/north-star/NorthStar";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,7 @@ function App() {
           </header>
           <RouterProvider router={router} />
           <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
+          <NorthStar />
         </WordleProvider>
       </AuthFlow>
     </div>
