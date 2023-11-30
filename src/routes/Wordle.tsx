@@ -83,11 +83,18 @@ export const Wordle = () => {
     if (!valid) {
       return;
     }
+    const isAboutToSolveIt = compareAttempt(activeGuess);
     const last =
       (attempts?.length ?? 0) + 1 === maxAttempts ||
       isCorrect() ||
-      compareAttempt(activeGuess);
-    saveWordleAttempt(activeGuess, parsedDay, last);
+      isAboutToSolveIt;
+    saveWordleAttempt(
+      activeGuess,
+      parsedDay,
+      last,
+      isAboutToSolveIt,
+      (attempts?.length ?? 0) + 1
+    );
 
     if (isCorrect()) {
       setIsDone(true);

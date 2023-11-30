@@ -22,7 +22,13 @@ type WordleState = {
   wordleState?: Attempt[];
   gameState?: Attempt[];
   setActiveDay: (value: number) => void;
-  saveWordleAttempt: (attempt: string, day: number, last?: boolean) => void;
+  saveWordleAttempt: (
+    attempt: string,
+    day: number,
+    last?: boolean,
+    isCorrect?: boolean,
+    attemptNumber?: number
+  ) => void;
   isMuted: boolean;
   toggleMute: () => void;
   thereWillBeLight: boolean;
@@ -78,7 +84,13 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
     getWordleState(activeDay).then((res) => setWordleState(res.items));
   }, [activeDay]);
 
-  const saveWordleAttempt = (attempt: string, day: number, last?: boolean) => {
+  const saveWordleAttempt = (
+    attempt: string,
+    day: number,
+    last?: boolean,
+    isCorrect?: boolean,
+    attemptNumber?: number
+  ) => {
     const data = {
       owner: client.authStore.model?.id,
       slug: "" + day,
@@ -96,7 +108,32 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
           return [res];
         })
       );
+    if (!!last) {
+      submitScore({
+        slug: "" + day,
+        attempts: attemptNumber ?? 0,
+        solved: !!isCorrect,
+      });
+    }
     return response;
+  };
+
+  const submitScore = async ({
+    slug,
+    attempts,
+    solved,
+  }: {
+    slug: string;
+    attempts: number;
+    solved: boolean;
+  }) => {
+    const data = {
+      slug: slug,
+      username: client.authStore.model?.username ?? "",
+      attempts: attempts,
+      solved: solved,
+    };
+    return await client.collection("score").create(data);
   };
 
   const toggleMute = () => {
