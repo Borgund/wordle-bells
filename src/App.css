@@ -21,12 +21,25 @@ html {
   width: 100%;
 }
 
+body {
+  background-color: var(--color-x-mas-blue-sky);
+  background-image: url("/src/assets/landscapeWithScoreTree.svg");
+  background-position: left -5vw bottom -5vw;
+  background-repeat: no-repeat;
+  background-size: 110vw;
+}
+
 #root {
-  max-width: 1280px;
   margin: 0 auto;
   text-align: center;
   color: white;
   position: relative;
+}
+
+.App {
+  height: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 .logo {
@@ -41,14 +54,6 @@ html {
 
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-body {
-  background-color: var(--color-x-mas-blue-sky);
-  background-image: url("/src/assets/landscapeWithScoreTree.svg");
-  background-position: left -24rem bottom -10rem;
-  background-repeat: no-repeat;
-  background-size: 200rem;
 }
 
 .simple-keyboard {

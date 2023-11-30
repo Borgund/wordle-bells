@@ -25,7 +25,7 @@ export const Home = () => {
   ];
 
   return (
-    <div className="App">
+    <>
       <NorthStar />
       {thereWillBeLight && <Flashlights />}
       <div className={styles.textWrapper}>
@@ -57,6 +57,6 @@ export const Home = () => {
           );
         })}
       </DoorContainer>
-    </div>
+    </>
   );
 };
