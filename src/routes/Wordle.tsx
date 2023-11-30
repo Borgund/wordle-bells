@@ -6,7 +6,6 @@ import useSound from "use-sound";
 import achievementbell from "../assets/sounds/achievementbell.wav";
 import keySound from "../assets/sounds/typewriterclick.wav";
 import enterSound from "../assets/sounds/typewriterreturnbell.wav";
-import { allWords } from "../words";
 import { Attempt, useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
 import { getLetterStates } from "../components/word/Word";
@@ -26,6 +25,7 @@ export const Wordle = () => {
   const { day } = useParams();
   const parsedDay = Number(day);
   setActiveDay(parsedDay);
+  const maxAttempts = 6;
 
   const volume = { volume: isMuted ? 0 : 1 };
   const [showHelp, setShowHelp] = useState(false);
@@ -33,17 +33,14 @@ export const Wordle = () => {
   const EMPTY_ATTEMTSTRING = " ".repeat(5);
   const [attempts, setAttempts] = useState<Attempt[]>();
   const [activeGuess, setActiveGuess] = useState("");
+  const [isDone, setIsDone] = useState(
+    attempts?.length === maxAttempts || isCorrect()
+  );
 
   useEffect(() => {
     setAttempts(wordleState);
-    console.log("useEffect wordleState:", wordleState);
   }, [wordleState]);
 
-  const [isDone, setIsDone] = useState(wordleState?.length === 5 ?? false);
-
-  const maxAttempts = 5;
-
-  //const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
@@ -59,9 +56,8 @@ export const Wordle = () => {
 
   const isCorrect = () => {
     const guessIsCorrect = activeGuess === todaysWord;
-    const attemptFilter = attempts?.filter(
-      ({ attempt }) => attempt === todaysWord
-    );
+    const attemptFilter =
+      attempts && attempts.filter(({ attempt }) => attempt === todaysWord);
     const previousAttemptIsCorrect = attemptFilter && attemptFilter.length > 0;
 
     return guessIsCorrect || previousAttemptIsCorrect;
@@ -72,7 +68,6 @@ export const Wordle = () => {
     const repeatedWord =
       attempts!.filter(({ attempt }) => attempt === activeGuess).length > 0 ??
       false;
-    //const testWord = allWords.includes(activeGuess.toLowerCase())
     return testLength && !repeatedWord;
   };
 
@@ -82,20 +77,15 @@ export const Wordle = () => {
     if (!valid) {
       return;
     }
-
-    // const nextActiveIndex = activeIndex + 1;
-    // const newAttempts = [...attempts];
-    // newAttempts[activeIndex] = activeGuess;
-    // setAttempts(newAttempts);
-    saveWordleAttempt(activeGuess, parsedDay);
-    //TODO: UPDATE LOCAL STATE? OR REFETCH!
+    const last = attempts?.length === maxAttempts || isCorrect();
+    saveWordleAttempt(activeGuess, parsedDay, last);
 
     if (isCorrect()) {
       setIsDone(true);
       play();
     } else {
       playEnter();
-      if (attempts?.length === maxAttempts) {
+      if (attempts && attempts?.length === maxAttempts) {
         setIsDone(true);
       }
     }
@@ -203,11 +193,13 @@ export const Wordle = () => {
     );
   }
 
+  const EmptyAttempts = () => {
+    const arr = Array(maxAttempts - (attempts?.length ?? 0)).fill("");
+    return arr.map((i) => <Word word={EMPTY_ATTEMTSTRING} />);
+  };
+
   return (
     <div>
-      {JSON.stringify(wordleState)}
-      <p></p>
-      {JSON.stringify({ correcrt: isCorrect(), isDone: isDone })}
       <Link
         to="/"
         className={styles.backButton}
@@ -224,7 +216,6 @@ export const Wordle = () => {
       {showHelp && <WordleHelp />}
       {!showHelp && (
         <>
-          <p>Hint: {hint}</p>
           {isDone && isCorrect() && <p>Hoho! Way to go! You are correct! 🎅🏻</p>}
           {isDone && !isCorrect() && (
             <p>Oh no... Too bad! Better luck tomorrow 😈</p>
@@ -234,7 +225,8 @@ export const Wordle = () => {
               Copy to clipboard
             </button>
           )}
-          {!isDone && <Word word={activeGuess} />}
+          {!isDone && <p>Hint: {hint}</p>}
+          {!isDone && !isCorrect() && <Word word={activeGuess} />}
           {attempts?.map(({ attempt }) => (
             <Word
               word={attempt}
@@ -242,6 +234,8 @@ export const Wordle = () => {
               submitted={attempt.length > 0}
             />
           ))}
+          <EmptyAttempts />
+
           <Keyboard
             theme={"hg-theme-default dark"}
             layout={keyboardLayout}

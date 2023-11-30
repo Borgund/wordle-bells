@@ -46,7 +46,6 @@ const getWordleState = async (day: number) => {
   const wordleState = await client
     .collection("attempts")
     .getList<Attempt>(1, 5, { filter: `slug='${day}'`, sort: "-created" });
-  console.log(wordleState, day);
   return wordleState;
 };
 
@@ -99,8 +98,11 @@ export const WordleProvider = ({ children }: WordleProviderProps) => {
       attempt: attempt,
       last: !!last,
     };
-
-    return client.collection("attempts").create(data);
+    const response = client
+      .collection("attempts")
+      .create(data)
+      .then((res) => setWordleState((old) => [res, ...old]));
+    return response;
   };
 
   const toggleMute = () => {

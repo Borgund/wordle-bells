@@ -9,7 +9,7 @@ import {
 import { Home } from "./routes/Home";
 import { Wordle } from "./routes/Wordle";
 import { canOpen } from "./utils";
-import { useWordleContext, WordleProvider } from "./WordleContext";
+import { WordleProvider } from "./WordleContext";
 import MuteButton from "./components/muteButton/MuteButton";
 import { CogMenu } from "./components//cogmenu/CogMenu";
 import { AuthFlow } from "./components/login/AuthFlow";
