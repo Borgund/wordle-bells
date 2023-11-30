@@ -51,7 +51,7 @@ export const Wordle = () => {
     id: string;
     slug: string;
     body: { word: string; hint: string };
-  }>({ collection: "words", filter: `slug='${day}'` });
+  }>({ collection: "words", filter: `slug='${day}'`, firstItemOnly: true });
 
   const todaysWord = data?.body?.word.toUpperCase() ?? "";
   const hint = data?.body?.hint ?? "";

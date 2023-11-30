@@ -4,9 +4,11 @@ import { client } from "../pocketbase";
 function useCollection<T>({
   collection,
   filter,
+  firstItemOnly,
 }: {
   collection: string;
   filter?: string;
+  firstItemOnly?: boolean;
 }) {
   const [data, setData] = useState<T>();
   const [isLoading, setIsLoading] = useState(false);
@@ -14,20 +16,19 @@ function useCollection<T>({
 
   useEffect(() => {
     const col = client.collection(collection);
-    if (!filter) {
-      setIsLoading(true);
+    setIsLoading(true);
 
-      col
-        .getFullList()
-        .then((res) => {
-          setData(res as T);
-          setIsLoading(false);
-          setError(false);
-        })
-        .catch((e) => setError(e))
-        .finally(() => setIsLoading(false));
-    }
-    if (filter) {
+    col
+      .getList(1, 48, { filter: filter })
+      .then((res) => {
+        setData(res as T);
+        setIsLoading(false);
+        setError(false);
+      })
+      .catch((e) => setError(e))
+      .finally(() => setIsLoading(false));
+
+    if (firstItemOnly && filter) {
       setIsLoading(true);
       col
         .getFirstListItem(filter)
