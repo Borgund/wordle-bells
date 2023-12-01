@@ -59,23 +59,24 @@ export const Wordle = () => {
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
 
-  const filteredAttemptsList = gameState.filter(
+  const filteredAttemptsList = gameState?.filter(
     ({ slug }) => slug === "" + activeDay
   );
+  const correctAttemptsList = filteredAttemptsList?.filter(
+    ({ attempt }) =>
+      attempt.toUpperCase() === activeCorrectWord?.body.word.toUpperCase()
+  );
+  const isCorrect = (correctAttemptsList?.length ?? 0) > 0;
 
-  const isCorrect =
-    filteredAttemptsList.filter(
-      ({ attempt }) =>
-        attempt.toUpperCase() === activeCorrectWord?.body.word.toUpperCase()
-    ).length > 0;
-
-  const isDone = filteredAttemptsList.length === maxAttempts || isCorrect;
+  const isDone = filteredAttemptsList?.length === maxAttempts || isCorrect;
 
   const validateAttempt = () => {
-    const testLength = activeGuess.length === 5;
+    const testLength = activeGuess.length === 5 ?? false;
     const repeatedWord =
-      filteredAttemptsList.filter(({ attempt }) => attempt === activeGuess)
-        .length > 0 ?? false;
+      filteredAttemptsList?.filter(({ attempt }) => attempt === activeGuess)
+        .length ??
+      0 > 0 ??
+      false;
     return testLength && !repeatedWord;
   };
 
@@ -95,7 +96,7 @@ export const Wordle = () => {
       owner: client.authStore.model?.id,
       slug: "" + activeDay,
       attempt: activeGuess,
-      attemptNumber: filteredAttemptsList.length + 1,
+      attemptNumber: filteredAttemptsList?.length ?? 0 + 1,
       last: last,
       isCorrect: isAboutToSolveIt,
     });
@@ -254,7 +255,7 @@ export const Wordle = () => {
             ))}
           <EmptyAttempts
             maxAttempts={maxAttempts}
-            attempts={filteredAttemptsList.length}
+            attempts={filteredAttemptsList?.length ?? 0}
           />
 
           <Keyboard
