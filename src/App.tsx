@@ -15,6 +15,7 @@ import { CogMenu } from "./components//cogmenu/CogMenu";
 import { AuthFlow } from "./components/login/AuthFlow";
 import LightButton from "./components/lightButton/LightButton";
 import { Avatar } from "./components/avatar/avatar";
+import { useWordleStore } from "./stores/wordleStore";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,13 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const [fetchGameState, gameState] = useWordleStore((s) => [
+    s.fetchGameState,
+    s.gameState,
+  ]);
+  if (gameState.length === 0) {
+    fetchGameState();
+  }
   return (
     <div className="App">
       <AuthFlow>
