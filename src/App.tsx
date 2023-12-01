@@ -36,11 +36,12 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const [fetchGameState, gameState] = useWordleStore((s) => [
+  const [fetchGameState, gameState, isLoading] = useWordleStore((s) => [
     s.fetchGameState,
     s.gameState,
+    s.isLoading,
   ]);
-  if (gameState.length === 0) {
+  if (!isLoading && gameState === undefined) {
     fetchGameState();
   }
   return (
