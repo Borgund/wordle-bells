@@ -6,25 +6,27 @@ import { client } from "../pocketbase";
 
 export function useAuth() {
   const { authStore } = client;
+  const { isValid } = authStore;
   const [user, setUser] = useState<AuthModel>();
   const [hasVerifiedEmail, setHasVerifiedEmail] = useState<boolean>(true);
   const [token, setToken] = useState<string>();
 
   useEffect(() => {
-    checkVerifiedEmail();
-
-    if (isLoggedIn() && !user) {
+    if (isValid && !user) {
       setUser(authStore.model);
+      checkVerifiedEmail();
     }
     return authStore.onChange((token: string, model: AuthModel) => {
       setToken(token);
-      setUser(model);
-      setHasVerifiedEmail(model?.verified);
+      if (model) {
+        setUser(model);
+        setHasVerifiedEmail(model.verified);
+      }
     });
   }, [user]);
 
   const checkVerifiedEmail = useCallback(async () => {
-    if (isLoggedIn()) {
+    if (isValid) {
       const userId = authStore.model?.id;
       const userData = await client.collection("users").getOne(userId);
       setHasVerifiedEmail(userData.verified);
@@ -65,7 +67,7 @@ export function useAuth() {
   );
 
   const requestVerification = async () => {
-    if (isLoggedIn() && !hasVerifiedEmail) {
+    if (isValid && !hasVerifiedEmail) {
       const email = authStore.model?.email;
       return await client
         .collection("users")
@@ -74,16 +76,11 @@ export function useAuth() {
     }
   };
 
-  const isLoggedIn = useCallback(() => {
-    return authStore.isValid;
-  }, []);
-
   const logout = useCallback(() => {
     client.authStore.clear();
   }, []);
 
   return {
-    isLoggedIn,
     token,
     user,
     registerEmail,
@@ -92,5 +89,6 @@ export function useAuth() {
     logout,
     hasVerifiedEmail,
     requestVerification,
+    authStore,
   };
 }

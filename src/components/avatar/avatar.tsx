@@ -2,11 +2,11 @@ import { useAuth } from "../../hooks/useAuth";
 import style from "./avatar.module.scss";
 
 export const Avatar = () => {
-  const { user, logout, isLoggedIn } = useAuth();
+  const { user, logout, authStore } = useAuth();
   const avatarBaseUrl = "https://api.dicebear.com/7.x/big-smile/svg?seed=";
   return (
     <>
-      {isLoggedIn() && (
+      {authStore.isValid && (
         <div className={style.avatar}>
           <div className={style.user}>
             <img src={avatarBaseUrl + user?.username} />

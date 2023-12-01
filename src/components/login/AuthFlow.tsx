@@ -9,13 +9,13 @@ export const AuthFlow = ({ children }: { children: React.ReactNode }) => {
   const [emailRegistation, setEmailRegistation] = useState(false);
   const [emailLogin, setEmailLogin] = useState(false);
   const {
-    isLoggedIn,
+    authStore,
     loginWithProvider,
     hasVerifiedEmail,
     requestVerification,
   } = useAuth();
 
-  if (!isLoggedIn()) {
+  if (!authStore.isValid) {
     return (
       <>
         <p>You need to be logged in so santa can keep an eye on you</p>
@@ -54,7 +54,7 @@ export const AuthFlow = ({ children }: { children: React.ReactNode }) => {
   } else {
     return (
       <>
-        {!hasVerifiedEmail ? (
+        {authStore.isValid && !hasVerifiedEmail ? (
           <div className={styles.verify}>
             <p>Please verify your email:</p>
             <button onClick={requestVerification}>
