@@ -14,22 +14,20 @@
   --color-dark-not-really: #999999;
 }
 
-body,
-#root,
-html {
-  height: 100%;
-  width: 100%;
-}
-
 body {
   background-color: var(--color-x-mas-blue-sky);
   background-image: url("/src/assets/landscapeWithScoreTree.svg");
   background-position: left -5vw bottom -5vw;
   background-repeat: no-repeat;
   background-size: 110vw;
+  background-attachment: fixed;
+
+  /*  */
+  padding-bottom: 10rem;
 }
 
 #root {
+  width: 100%;
   margin: 0 auto;
   text-align: center;
   color: white;
