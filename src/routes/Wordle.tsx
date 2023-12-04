@@ -25,7 +25,6 @@ export const Wordle = () => {
   getData();
   const { gameState, saveWordleDay, isMuted } = useWordleContext();
   const { wordList } = usePocketStore();
-  console.log(wordList);
   const { day } = useParams();
   const parsedDay = Number(day);
   const activeGameState = gameState[parsedDay];
@@ -53,13 +52,10 @@ export const Wordle = () => {
 
   //const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
   //const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
-  console.log("Parsed day:", parsedDay);
   const filteredWordList = wordList.filter(({ slug }) => {
-    console.log("infilter:", slug, parsedDay);
     return slug === "" + parsedDay;
   });
   const { word, hint } = filteredWordList[0]?.body ?? {};
-  console.log(word, hint);
   const todaysWord = word?.toUpperCase();
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
