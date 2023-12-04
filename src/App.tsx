@@ -12,9 +12,7 @@ import { canOpen } from "./utils";
 import { WordleProvider } from "./WordleContext";
 import MuteButton from "./components/muteButton/MuteButton";
 import { CogMenu } from "./components//cogmenu/CogMenu";
-import { AuthFlow } from "./components/login/AuthFlow";
 import LightButton from "./components/lightButton/LightButton";
-import { Avatar } from "./components/avatar/avatar";
 
 const router = createBrowserRouter([
   {
@@ -37,19 +35,16 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div className="App">
-      <AuthFlow>
-        <WordleProvider>
-          <header>
-            <Avatar />
-            <CogMenu>
-              <MuteButton />
-              <LightButton />
-            </CogMenu>
-          </header>
-          <RouterProvider router={router} />
-          <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
-        </WordleProvider>
-      </AuthFlow>
+      <WordleProvider>
+        <header>
+          <CogMenu>
+            <MuteButton />
+            <LightButton />
+          </CogMenu>
+        </header>
+        <RouterProvider router={router} />
+        <Snowfall style={{ zIndex: "1" }} snowflakeCount={300} />
+      </WordleProvider>
     </div>
   );
 }
