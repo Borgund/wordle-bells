@@ -10,6 +10,7 @@ import { allWords } from "../words";
 import { useWordleContext } from "../WordleContext";
 import styles from "./Wordle.module.scss";
 import { getLetterStates } from "../components/word/Word";
+import { usePocketStore } from "../stores/pocketStore";
 
 const keyboardLayout = {
   default: [
@@ -20,7 +21,11 @@ const keyboardLayout = {
 };
 
 export const Wordle = () => {
+  const [getData, isLoading] = usePocketStore((s) => [s.getData, s.isLoading]);
+  getData();
   const { gameState, saveWordleDay, isMuted } = useWordleContext();
+  const { wordList } = usePocketStore();
+  console.log(wordList);
   const { day } = useParams();
   const parsedDay = Number(day);
   const activeGameState = gameState[parsedDay];
@@ -44,9 +49,18 @@ export const Wordle = () => {
 
   const maxAttempts = 6;
 
-  const WORDLIST = import.meta.env.VITE_WORDLIST || "";
-  const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
-  const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
+  //const WORDLIST = import.meta.env.VITE_WORDLIST || "";
+
+  //const WORDLIST_PARSED = WORDLIST && JSON.parse(WORDLIST);
+  //const todaysWord = WORDLIST_PARSED[parsedDay - 1] || "WORDS";
+  console.log("Parsed day:", parsedDay);
+  const filteredWordList = wordList.filter(({ slug }) => {
+    console.log("infilter:", slug, parsedDay);
+    return slug === "" + parsedDay;
+  });
+  const { word, hint } = filteredWordList[0]?.body ?? {};
+  console.log(word, hint);
+  const todaysWord = word?.toUpperCase();
   const [play] = useSound(achievementbell, volume);
   const [playKey] = useSound(keySound, volume);
   const [playEnter] = useSound(enterSound, volume);
@@ -56,9 +70,7 @@ export const Wordle = () => {
   const validateAttempt = () => {
     const testAttempts = activeIndex < maxAttempts;
     const testLength = activeGuess.length === 5;
-    const testWord =
-      allWords.includes(activeGuess.toLowerCase()) ||
-      WORDLIST_PARSED.includes(activeGuess);
+    const testWord = allWords.includes(activeGuess.toLowerCase());
     return testAttempts && testLength && testWord;
   };
 
@@ -158,9 +170,9 @@ export const Wordle = () => {
 
   const emojify = () => {
     return attempts
-      .filter((attempt) => attempt !== '     ')
+      .filter((attempt) => attempt !== "     ")
       .map((attempt) => emojiAttempt(attempt))
-      .join('\n')
+      .join("\n");
   };
 
   const handleCopyResults = () => {
@@ -174,6 +186,8 @@ export const Wordle = () => {
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   });
+
+  if (isLoading) return <>loading</>;
 
   return (
     <div>
@@ -192,31 +206,36 @@ export const Wordle = () => {
       </button>
       {showHelp && <WordleHelp />}
       {!showHelp && (
-        <>
-          {isDone && isCorrect() && <p>Hoho! Way to go! You are correct! 🎅🏻</p>}
-          {isDone && !isCorrect() && (
-            <p>Oh no... Too bad! Better luck tomorrow 😈</p>
-          )}
-          {isDone && (
-            <button className={styles.copyButton} onClick={handleCopyResults}>
-              Copy to clipboard
-            </button>
-          )}
-          {!isDone && <Word word={activeGuess} />}
-          {attempts.map((attempt) => (
-            <Word
-              word={attempt}
-              correctWord={todaysWord}
-              submitted={attempt.trim().length > 0}
-            />
-          ))}
-          <Keyboard
-            theme={"hg-theme-default dark"}
-            layout={keyboardLayout}
-            layoutName="default"
-            onKeyPress={onKeyPress}
-          />
-        </>
+        <div className={styles.wordleGame}>
+          <>
+            {isDone && isCorrect() && (
+              <p>Hoho! Way to go! You are correct! 🎅🏻</p>
+            )}
+            {isDone && !isCorrect() && (
+              <p>Oh no... Too bad! Better luck tomorrow 😈</p>
+            )}
+            {isDone && (
+              <button className={styles.copyButton} onClick={handleCopyResults}>
+                Copy to clipboard
+              </button>
+            )}
+            <p>Hint: {hint}</p>
+            {!isDone && <Word word={activeGuess} />}
+            {attempts.map((attempt) => (
+              <Word
+                word={attempt}
+                correctWord={todaysWord}
+                submitted={attempt.trim().length > 0}
+              />
+            ))}
+            <Keyboard
+              theme={"hg-theme-default dark"}
+              layout={keyboardLayout}
+              layoutName="default"
+              onKeyPress={onKeyPress}
+            />{" "}
+          </>
+        </div>
       )}
     </div>
   );

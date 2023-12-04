@@ -13,6 +13,7 @@ import { WordleProvider } from "./WordleContext";
 import MuteButton from "./components/muteButton/MuteButton";
 import { CogMenu } from "./components//cogmenu/CogMenu";
 import LightButton from "./components/lightButton/LightButton";
+import { usePocketStore } from "./stores/pocketStore";
 
 const router = createBrowserRouter([
   {
