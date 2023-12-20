@@ -4044,6 +4044,7 @@ const allowedGuesses = [
   "cobby",
   "cobia",
   "coble",
+  "cobol",
   "cobza",
   "cocas",
   "cocci",
